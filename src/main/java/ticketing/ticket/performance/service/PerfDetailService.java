@@ -24,7 +24,7 @@ public class PerfDetailService {
         return perfDetailRepository.findById(id);
     }
 
-    public List<PerfDetailResponseDto> findAll() {
-        return perfDetailRepository.findAll();
+    public List<PerfDetailResponseDto> findAllByPerf(Long perfId) {
+        return perfDetailRepository.findAllByPerf(perfId);
     }
 }

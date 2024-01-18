@@ -34,9 +34,10 @@ public class JpaPerfDetailRepository implements PerfDetailRepository{
     }
 
     @Override
-    public List<PerfDetailResponseDto> findAll() {
-        String jpql = "select p from PerformanceDetail p";
+    public List<PerfDetailResponseDto> findAllByPerf(Long perfId) {
+        String jpql = "select p from PerformanceDetail p where p.performance.id = :perfId";
         List<PerformanceDetail> tmpList = em.createQuery(jpql, PerformanceDetail.class)
+                .setParameter("perfId", perfId)
                 .getResultList();
         List<PerfDetailResponseDto> result = tmpList.stream()
                 .map(p -> new PerfDetailResponseDto(p))

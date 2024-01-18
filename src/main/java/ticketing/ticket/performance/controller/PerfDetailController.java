@@ -21,12 +21,12 @@ public class PerfDetailController {
     }
 
     @GetMapping("/{perfId}")
-    public PerfDetailResponseDto getPerfDetail(@PathVariable Long perfId) {
-        return perfDetailService.findById(perfId);
+    public PerfDetailResponseDto getPerfDetail(@PathVariable Long perfDetailId) {
+        return perfDetailService.findById(perfDetailId);
     }
 
-    @GetMapping()
-    public List<PerfDetailResponseDto> getAllDetails() {
-        return perfDetailService.findAll();
+    @GetMapping("/all/{perfId}")
+    public List<PerfDetailResponseDto> getAllDetails(@PathVariable Long perfId) {
+        return perfDetailService.findAllByPerf(perfId);
     }
 }

@@ -10,5 +10,5 @@ public interface PerfDetailRepository {
 
     PerfDetailResponseDto findById(Long perfDetailId);
 
-    List<PerfDetailResponseDto> findAll();
+    List<PerfDetailResponseDto> findAllByPerf(Long perfId);
 }
