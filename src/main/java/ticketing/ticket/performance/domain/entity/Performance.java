@@ -4,12 +4,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
+import ticketing.ticket.base.BaseEntity;
 
 @Entity
-public class Performance {
+@Data
+public class Performance extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long performanceId;
 
     private String name;
+
+    public Performance(String name) {
+        this.name = name;
+    }
+
+    public Performance() {
+    }
 }

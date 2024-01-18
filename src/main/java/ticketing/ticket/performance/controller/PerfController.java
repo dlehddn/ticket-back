@@ -2,32 +2,32 @@ package ticketing.ticket.performance.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ticketing.ticket.performance.domain.dto.PerformanceDto;
+import ticketing.ticket.performance.domain.dto.PerfDto;
 import ticketing.ticket.performance.domain.entity.Performance;
-import ticketing.ticket.performance.service.PerformanceService;
+import ticketing.ticket.performance.service.PerfService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/perform")
-public class PerformanceController {
+public class PerfController {
 
-    private final PerformanceService performanceService;
+    private final PerfService perfService;
 
     @PostMapping("/save")
-    public void creatPerformance(@RequestBody PerformanceDto performanceDto) {
-        performanceService.savePerformance(performanceDto);
+    public void creatPerformance(@RequestBody PerfDto perfDto) {
+        perfService.savePerformance(perfDto);
     }
 
     @GetMapping("/{performId}")
     public Performance getPerformance(@PathVariable Long performId) {
-        return performanceService.findById(performId);
+        return perfService.findById(performId);
     }
 
     @GetMapping()
     public List<Performance> getAll() {
-        return performanceService.findAll();
+        return perfService.findAll();
     }
 
 }

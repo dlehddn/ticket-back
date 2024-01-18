@@ -3,20 +3,20 @@ package ticketing.ticket.performance.repository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ticketing.ticket.performance.domain.dto.PerformanceDto;
+import ticketing.ticket.performance.domain.dto.PerfDto;
 import ticketing.ticket.performance.domain.entity.Performance;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaPerformanceRepository implements PerformanceRepository{
+public class JpaPerfRepository implements PerfRepository {
 
     private final EntityManager em;
 
     @Override
-    public void save(PerformanceDto performanceDto) {
-        Performance performance = new Performance(performanceDto.getName());
+    public void save(PerfDto perfDto) {
+        Performance performance = new Performance(perfDto.getName());
         em.persist(performance);
     }
 
