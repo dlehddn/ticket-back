@@ -8,6 +8,7 @@ public class ReserveSaveDto {
     Long memberId;
     Long seatId;
     Long perfDetailId;
+    Integer totalPrice;
 
     public ReserveSaveDto(Long memberId, Long seatId, Long perfDetailId) {
         this.memberId = memberId;

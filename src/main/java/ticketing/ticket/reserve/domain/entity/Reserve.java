@@ -25,10 +25,13 @@ public class Reserve extends BaseEntity {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
-    public Reserve(Member member, PerformanceDetail performanceDetail, Seat seat) {
+    private Integer totalPrice;
+
+    public Reserve(Member member, PerformanceDetail performanceDetail, Seat seat, Integer totalPrice) {
         this.member = member;
         this.performanceDetail = performanceDetail;
         this.seat = seat;
+        this.totalPrice = totalPrice;
     }
 
     public Reserve() {

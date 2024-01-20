@@ -1,23 +1,26 @@
 package ticketing.ticket.reserve.domain.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
+@Builder
 public class ReserveResponseDto {
 
-    Long memberId;
-    String memberName;
+    private Long reserveId;
+    private Long memberId;
+    private Long perfDetailId;
+    private Long seatId;
 
-    String SeatName;
+    private String memberName;
+    private String seatName;
+    private String artist;
 
-    Long perfDetailId;
-    String artist;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    public ReserveResponseDto(Long memberId, String memberName, String seatName, Long perfDetailId, String artist) {
-        this.memberId = memberId;
-        this.memberName = memberName;
-        SeatName = seatName;
-        this.perfDetailId = perfDetailId;
-        this.artist = artist;
-    }
+    private Integer totalPrice;
+
 }
