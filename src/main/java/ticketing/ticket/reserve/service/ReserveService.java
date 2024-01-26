@@ -25,7 +25,7 @@ public class ReserveService {
     private final PerfDetailRepository perfDetailRepository;
 
     public void saveReserve(ReserveSaveDto saveDto) {
-        // 아직도 예약 안됐는지 체크하는 로직
+        // 예약 안됐는지 체크하는 로직
         List<ReserveResponseDto> findDto = reserveRepository.findAllByDetail(saveDto.getPerfDetailId());
         if(checkAvailable(findDto, saveDto.getSeatId())) {
             // 퍼포먼스 디테일 꺼내오고 좌석 꺼내오기 -> totalPrice 계산
