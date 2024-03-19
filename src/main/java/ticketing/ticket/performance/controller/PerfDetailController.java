@@ -1,6 +1,7 @@
 package ticketing.ticket.performance.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.performance.domain.dto.PerfDetailResponseDto;
 import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;

@@ -1,12 +1,12 @@
 package ticketing.ticket.member.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import ticketing.
         ticket.base.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,6 +18,15 @@ public class Member extends BaseEntity {
     private String name;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberCoupon> memberCoupons = new ArrayList<>();
+
+    // 발생할 수 있는 문제 생각해보자.
+    public void addMemberCoupon(MemberCoupon memberCoupon) {
+        this.memberCoupons.add(memberCoupon);
+        memberCoupon.setMember(this);
+    }
 
     public Member(String name, String email, String password) {
         this.name = name;
