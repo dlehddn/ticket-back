@@ -1,4 +1,4 @@
-package ticketing.ticket.reserve.domain.entity;
+package ticketing.ticket.seat.domain.entity;
 
 
 import jakarta.persistence.*;

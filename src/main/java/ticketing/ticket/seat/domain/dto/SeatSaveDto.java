@@ -1,4 +1,4 @@
-package ticketing.ticket.reserve.domain.dto;
+package ticketing.ticket.seat.domain.dto;
 
 import lombok.Data;
 

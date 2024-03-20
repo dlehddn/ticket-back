@@ -18,11 +18,12 @@ public class JpaPerfDetailRepository implements PerfDetailRepository{
     private final EntityManager em;
 
     @Override
-    public void save(PerfDetailSaveDto saveDto, Long perfId) {
+    public Long save(PerfDetailSaveDto saveDto, Long perfId) {
         Performance performance = em.find(Performance.class, perfId);
         PerformanceDetail detail = new PerformanceDetail(performance, saveDto.getArtist(), saveDto.getStartTime(),
                 saveDto.getEndTime(), saveDto.getPrice());
         em.persist(detail);
+        return detail.getPerformanceDetailId();
     }
 
     @Override

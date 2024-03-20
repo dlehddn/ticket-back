@@ -1,10 +1,10 @@
-package ticketing.ticket.reserve.repository;
+package ticketing.ticket.seat.repository;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ticketing.ticket.reserve.domain.dto.SeatSaveDto;
-import ticketing.ticket.reserve.domain.entity.Seat;
+import ticketing.ticket.seat.domain.dto.SeatSaveDto;
+import ticketing.ticket.seat.domain.entity.Seat;
 
 @Repository
 @RequiredArgsConstructor

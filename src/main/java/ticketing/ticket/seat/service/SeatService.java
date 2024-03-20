@@ -1,11 +1,11 @@
-package ticketing.ticket.reserve.service;
+package ticketing.ticket.seat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ticketing.ticket.reserve.domain.dto.SeatSaveDto;
-import ticketing.ticket.reserve.domain.entity.Seat;
-import ticketing.ticket.reserve.repository.SeatRepository;
+import ticketing.ticket.seat.domain.dto.SeatSaveDto;
+import ticketing.ticket.seat.domain.entity.Seat;
+import ticketing.ticket.seat.repository.SeatRepository;
 
 @Service
 @RequiredArgsConstructor

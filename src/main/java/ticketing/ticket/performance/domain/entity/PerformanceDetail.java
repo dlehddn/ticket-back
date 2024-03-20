@@ -2,6 +2,7 @@ package ticketing.ticket.performance.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import ticketing.ticket.base.BaseEntity;
 
@@ -23,6 +24,7 @@ public class PerformanceDetail extends BaseEntity {
     private LocalDateTime endTime;
     private Integer price;
 
+    @Builder
     public PerformanceDetail(Performance performance, String artist, LocalDateTime startTime, LocalDateTime endTime, Integer price) {
         this.performance = performance;
         this.artist = artist;

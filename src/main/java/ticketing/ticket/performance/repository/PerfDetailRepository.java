@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PerfDetailRepository {
 
-    void save(PerfDetailSaveDto perfDetailSaveDto, Long perfId);
+    Long save(PerfDetailSaveDto perfDetailSaveDto, Long perfId);
 
     PerfDetailResponseDto findById(Long perfDetailId);
 
