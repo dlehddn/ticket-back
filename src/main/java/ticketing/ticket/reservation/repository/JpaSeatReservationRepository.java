@@ -7,12 +7,14 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.reservation.domain.dto.BulkReservationDto;
+import ticketing.ticket.reservation.domain.dto.SeatReservationResponseDto;
 import ticketing.ticket.reservation.domain.entity.SeatReservation;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,5 +54,20 @@ public class JpaSeatReservationRepository implements SeatReservationRepository{
         SeatReservation seatReservation = em.find(SeatReservation.class, reserveId);
         seatReservation.setAvailable(false);
         em.flush();
+    }
+
+    @Override
+    public List<SeatReservationResponseDto> findAllByPerfDetailId(Long perfDetailId) {
+        String jpql = "select s from SeatReservation s join fetch s.seat where s.performanceDetail.id = :perfDetailId";
+        List<SeatReservation> resultList = em.createQuery(jpql, SeatReservation.class)
+                .setParameter("perfDetailId", perfDetailId)
+                .getResultList();
+
+        return resultList.stream()
+                .map(s -> SeatReservationResponseDto.builder()
+                        .seat(s.getSeat())
+                        .available(s.isAvailable())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
