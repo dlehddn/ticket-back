@@ -1,6 +1,7 @@
 package ticketing.ticket.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +23,9 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public JwtTokenDto signIn(@RequestBody LogInDto logInDto) {
-        String username = logInDto.getEmail();
-        String password = logInDto.getPassword();
-        JwtTokenDto jwtToken = memberService.signIn(username, password);
-        return jwtToken;
+    public ResponseEntity<JwtTokenDto> signIn(@RequestBody LogInDto logInDto) {
+        JwtTokenDto jwtToken = memberService.signIn(logInDto.getEmail(), logInDto.getPassword());
+        return ResponseEntity.ok(jwtToken);
     }
 
 }
