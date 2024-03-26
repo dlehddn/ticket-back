@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import ticketing.
         ticket.base.BaseEntity;
+import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 
 import java.util.ArrayList;
 import java.util.List;
