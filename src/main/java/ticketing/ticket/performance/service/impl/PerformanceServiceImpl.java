@@ -42,35 +42,13 @@ public class PerformanceServiceImpl implements PerformanceService {
     // 모든 공연 카테고리 조회
     @Override
     public List<PerformanceDto> getAllPerformance() {
-        List<Performance> performanceList = performanceRepository.findAllWithDetail();
+        List<Performance> performanceList = performanceRepository.findAll();
         List<PerformanceDto> dtoList = new ArrayList<>();
-        List<PerformanceDetailDto> detailList = new ArrayList<>();
-
-        performanceList.forEach(p -> {
-            PerformanceDto performanceDto = new PerformanceDto();
-            if (!p.getPerformanceDetailList().isEmpty()) {
-                p.getPerformanceDetailList().forEach(pd->{
-                    PerformanceDetailDto performanceDetailDto = new PerformanceDetailDto();
-                    performanceDetailDto.setPerformanceDetailId(pd.getPerformanceDetailId());
-                    performanceDetailDto.setArtist(pd.getArtist());
-                    performanceDetailDto.setStartTime(pd.getStartTime());
-                    performanceDetailDto.setEndTime(pd.getEndTime());
-                    performanceDetailDto.setPrice(pd.getPrice());
-                    performanceDetailDto.setPerformanceId(pd.getPerformance().getPerformanceId());
-                    detailList.add(performanceDetailDto);
-                });
-                performanceDto.setPerformanceDetailDtoList(detailList);
-            }
-           
-            performanceDto.setName(p.getName());
-            performanceDto.setPerformanceId(p.getPerformanceId());
-            
-
-        
-            dtoList.add(performanceDto);
+            performanceList.forEach(p->{
+                dtoList.add(p.toDto());
         });
-
         
+    
         return dtoList;
     }
     // 공연 카테고리 삭제

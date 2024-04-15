@@ -7,7 +7,7 @@ public interface PerformanceRepository {
 
     Performance findById(Long performanceId);
     
-    List<Performance> findAllWithDetail();
+    List<Performance> findAll();
 
     void deleteById(Long performanceId);
 

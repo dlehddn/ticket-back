@@ -35,8 +35,8 @@ public class PerformanceRepositoryImpl implements PerformanceRepository{
     // 모두 조회
     // fetch join안쓰면 n+1문제 
     @Override
-    public List<Performance> findAllWithDetail() {
-       return em.createQuery("select p from Performance p  left join fetch p.performanceDetailList",Performance.class).getResultList();
+    public List<Performance> findAll() {
+       return em.createQuery("select p from Performance p ",Performance.class).getResultList();
     }
     // 공연카테고리 단건 삭제
     @Override

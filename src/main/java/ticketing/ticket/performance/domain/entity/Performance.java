@@ -9,6 +9,8 @@ import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.ToString;
 import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.performance.domain.dto.PerformanceDto;
+
 import java.util.*;
 
 
@@ -24,4 +26,12 @@ public class Performance extends BaseEntity {
     @OneToMany(mappedBy = "performance" , cascade = CascadeType.MERGE)
     @ToString.Exclude
     private List<PerformanceDetail> performanceDetailList = new ArrayList<>();
+
+    public PerformanceDto toDto() {
+        PerformanceDto dto = new PerformanceDto();
+        dto.setPerformanceId(this.performanceId);
+        dto.setName(this.name);
+        // PerformanceDetail 리스트를 DTO로 변환하는 로직이 필요하다면 여기에 추가
+        return dto;
+    }
 }
