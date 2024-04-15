@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDto;
 import ticketing.ticket.performance.domain.entity.Performance;
@@ -13,6 +14,7 @@ import ticketing.ticket.performance.repository.PerformanceRepository;
 
 import ticketing.ticket.performance.service.PerformanceService;
 @Service
+@Transactional
 public class PerformanceServiceImpl implements PerformanceService {
     private final PerformanceRepository performanceRepository;
 

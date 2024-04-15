@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.performance.repository.PerformanceDetailRepository;
 
@@ -18,7 +17,6 @@ public class PerformanceDetailRepositoryImpl implements PerformanceDetailReposit
     private  EntityManager em;
     // 공연 디테일 저장, 업데이트
     @Override
-    @Transactional
     public void save(PerformanceDetail performanceDetail) {
         if (performanceDetail.getPerformanceDetailId() == null) {
             em.persist(performanceDetail);
@@ -50,7 +48,6 @@ public class PerformanceDetailRepositoryImpl implements PerformanceDetailReposit
 
     //id 단건 삭제
     @Override
-    @Transactional
     public void deleteById(Long performanceDetailId) {
         PerformanceDetail performanceDetail = findById(performanceDetailId);
         if (performanceDetail != null) {

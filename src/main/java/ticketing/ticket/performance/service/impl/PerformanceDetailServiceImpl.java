@@ -5,22 +5,27 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.performance.repository.PerformanceDetailRepository;
 import ticketing.ticket.performance.repository.PerformanceRepository;
 import ticketing.ticket.performance.service.PerformanceDetailService;
+import ticketing.ticket.reservation.domain.entity.SeatReservation;
+import ticketing.ticket.reservation.repository.SeatReservationRepository;
+import ticketing.ticket.seat.domain.entity.Seat;
+import ticketing.ticket.seat.repository.SeatRepository;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class PerformanceDetailServiceImpl implements PerformanceDetailService{
     private final PerformanceDetailRepository performanceDetailRepository;
     private final PerformanceRepository performanceRepository;
-
-    @Autowired
-    public PerformanceDetailServiceImpl(PerformanceDetailRepository performanceDetailRepository, PerformanceRepository performanceRepository){
-        this.performanceDetailRepository = performanceDetailRepository;
-        this.performanceRepository = performanceRepository;
-    }
+    private final SeatReservationRepository seatReservationRepository;
+    private final SeatRepository seatRepository;
+   
     // 공연 디테일 저장
     @Override
     public void setPerformanceDetail(PerformanceDetailDto performanceDetailDto) {
@@ -30,8 +35,20 @@ public class PerformanceDetailServiceImpl implements PerformanceDetailService{
         performanceDetail.setEndTime(performanceDetailDto.getEndTime());
         performanceDetail.setPrice(performanceDetailDto.getPrice());
         performanceDetail.setPerformance(performanceRepository.findById(performanceDetailDto.getPerformanceId()));
-        System.out.println(performanceDetail.toString());
+        
         performanceDetailRepository.save(performanceDetail);
+        // SeatReservation 벌크 인서트
+        List<Seat> sList = seatRepository.findAll();
+        List<SeatReservation> srList = new ArrayList<>();
+        sList.forEach(s->{
+            SeatReservation  seatReservation = new SeatReservation();
+            seatReservation.setPerformanceDetail(performanceDetail);
+            seatReservation.setSeat(s);
+            srList.add(seatReservation);
+        });
+        seatReservationRepository.bulkInsert(srList);
+
+
         
     }
     // 공연 디테일 단건 조회

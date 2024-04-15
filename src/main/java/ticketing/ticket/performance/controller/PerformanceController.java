@@ -16,6 +16,7 @@ import ticketing.ticket.performance.service.impl.PerformanceDetailServiceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/performance")
+@RequestMapping("/perform")
+@CrossOrigin(origins = "*")
 public class PerformanceController {
     private final PerformanceService performanceService;
     private final PerformanceDetailService performanceDetailService;
@@ -39,7 +41,7 @@ public class PerformanceController {
     }
     ///////////////////////////////////// 공연 카테고리 ////////////////////////////////////
     // 공연 카테고리 저장
-    @PostMapping("/set-performance")
+    @PostMapping("/save")
     public void setPerformance(@RequestBody PerformanceDto performanceDto){
         
         performanceService.setPerformance(performanceDto);
@@ -52,7 +54,7 @@ public class PerformanceController {
         return performanceService.getPerformance(performanceId);
     }
     // 모든 공연 카테고리 조회
-    @GetMapping("/get-allperformance")
+    @GetMapping("/all")
     public List<PerformanceDto> getAllPerformance() {
        List<PerformanceDto> dtoList = performanceService.getAllPerformance();
        

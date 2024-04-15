@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import ticketing.ticket.performance.domain.entity.Performance;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.performance.repository.PerformanceRepository;
@@ -20,7 +19,6 @@ public class PerformanceRepositoryImpl implements PerformanceRepository{
 
     // 공연 카테고리 저장, 업데이트
     @Override
-    @Transactional
     public void save(Performance performance) {
         
         if (performance.getPerformanceId() == null) {
@@ -42,7 +40,6 @@ public class PerformanceRepositoryImpl implements PerformanceRepository{
     }
     // 공연카테고리 단건 삭제
     @Override
-    @Transactional
     public void deleteById(Long performanceId) {
         Performance performance = findById(performanceId);
         if (performance != null) {

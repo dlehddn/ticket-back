@@ -3,6 +3,8 @@ package ticketing.ticket.performance.domain.dto;
 
 import lombok.Data;
 import ticketing.ticket.performance.domain.entity.Performance;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
