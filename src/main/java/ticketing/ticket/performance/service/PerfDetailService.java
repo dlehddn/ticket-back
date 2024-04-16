@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ticketing.ticket.performance.domain.dto.PerfDetailResponseDto;
 import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.repository.PerfDetailRepository;
 import ticketing.ticket.reservation.domain.dto.BulkReservationDto;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
@@ -37,7 +38,7 @@ public class PerfDetailService {
         return perfDetailRepository.findById(id);
     }
 
-    public List<PerfDetailResponseDto> findAllByPerf(Long perfId) {
-        return perfDetailRepository.findAllByPerf(perfId);
+    public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
+        return perfDetailRepository.findAllByPerf(perfSearchDto);
     }
 }

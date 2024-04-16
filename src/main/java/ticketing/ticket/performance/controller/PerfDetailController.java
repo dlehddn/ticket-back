@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.performance.domain.dto.PerfDetailResponseDto;
 import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.service.PerfDetailService;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/perform-detail")
+@CrossOrigin(originPatterns = "http://localhost:8080")
 public class PerfDetailController {
 
     private final PerfDetailService perfDetailService;
@@ -26,10 +28,10 @@ public class PerfDetailController {
         return perfDetailService.findById(perfDetailId);
     }
 
-    @GetMapping("/all/{perfId}")
-    public List<PerfDetailResponseDto> getAllDetails(@PathVariable Long perfId) {
-        return perfDetailService.findAllByPerf(perfId);
+    @PostMapping("/all")
+    public List<PerfDetailResponseDto> getAllDetails(@RequestBody PerfSearchDto perfSearchDto) {
+        System.out.println(perfSearchDto.getSize());
+        return perfDetailService.findAllByPerf(perfSearchDto);
     }
 
-    // 전체 조회 + 페이지네이션
 }

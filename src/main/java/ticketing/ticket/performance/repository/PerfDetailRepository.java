@@ -2,6 +2,8 @@ package ticketing.ticket.performance.repository;
 
 import ticketing.ticket.performance.domain.dto.PerfDetailResponseDto;
 import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
+
 import java.util.List;
 
 public interface PerfDetailRepository {
@@ -10,5 +12,5 @@ public interface PerfDetailRepository {
 
     PerfDetailResponseDto findById(Long perfDetailId);
 
-    List<PerfDetailResponseDto> findAllByPerf(Long perfId);
+    List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto);
 }

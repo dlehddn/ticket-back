@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class PerfDetailResponseDto {
+    private Long id;
     private String type;
     private String artist;
 
@@ -29,6 +30,7 @@ public class PerfDetailResponseDto {
     }
 
     public PerfDetailResponseDto(PerformanceDetail perfDetail) {
+        this.id = perfDetail.getPerformanceDetailId();
         this.type = perfDetail.getPerformance().getName();
         this.artist = perfDetail.getArtist();
         this.startTime = perfDetail.getStartTime();
