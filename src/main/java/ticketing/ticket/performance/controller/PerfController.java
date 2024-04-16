@@ -20,12 +20,12 @@ public class PerfController {
         perfService.savePerformance(perfDto);
     }
 
-    @GetMapping("/{performId}")
-    public Performance getPerformance(@PathVariable Long performId) {
-        return perfService.findById(performId);
-    }
+//    @GetMapping("/{performId}")
+//    public Performance getPerformance(@PathVariable Long performId) {
+//        return perfService.findById(performId);
+//    }
 
-    @GetMapping()
+    @GetMapping("/all")
     public List<Performance> getAll() {
         return perfService.findAll();
     }

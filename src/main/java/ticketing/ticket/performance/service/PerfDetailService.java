@@ -24,7 +24,7 @@ public class PerfDetailService {
         Long perfDetailId = perfDetailRepository.save(dto, perfId);
 
         List<BulkReservationDto> reservations = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 70; i++) {
             reservations.add(BulkReservationDto.builder()
                     .performanceDetailId(perfDetailId)
                     .seatId((long) i)

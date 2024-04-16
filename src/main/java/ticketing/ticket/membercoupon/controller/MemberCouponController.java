@@ -15,4 +15,7 @@ public class MemberCouponController {
     public void saveCoupon(@PathVariable Long memberId, @PathVariable Long couponId) {
         memberCouponService.saveCoupon(memberId, couponId);
     }
+
+    // 내 쿠폰 전체 조회 추가해야함
+
 }

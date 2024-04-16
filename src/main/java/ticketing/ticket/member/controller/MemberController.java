@@ -17,12 +17,12 @@ import ticketing.ticket.member.service.MemberService;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/save")
+    @PostMapping("/signup")
     public void signUp(@RequestBody SignUpDto signUpDto) {
         memberService.saveMember(signUpDto);
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/signin")
     public ResponseEntity<JwtTokenDto> signIn(@RequestBody LogInDto logInDto) {
         JwtTokenDto jwtToken = memberService.signIn(logInDto.getEmail(), logInDto.getPassword());
         return ResponseEntity.ok(jwtToken);

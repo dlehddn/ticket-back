@@ -18,13 +18,13 @@ public class SeatController {
         seatService.saveSeat(seatSaveDto);
     }
 
-    @GetMapping("/{seatId}")
-    public Seat getSeat(@PathVariable Long seatId) {
-        return seatService.findSeatById(seatId);
-    }
-
-    @DeleteMapping("/{seatId}")
-    public void deleteSeat(@PathVariable Long seatId) {
-        seatService.removeSeat(seatId);
-    }
+//    @GetMapping("/{seatId}")
+//    public Seat getSeat(@PathVariable Long seatId) {
+//        return seatService.findSeatById(seatId);
+//    }
+//
+//    @DeleteMapping("/{seatId}")
+//    public void deleteSeat(@PathVariable Long seatId) {
+//        seatService.removeSeat(seatId);
+//    }
 }

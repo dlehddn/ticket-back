@@ -30,4 +30,6 @@ public class PerfDetailController {
     public List<PerfDetailResponseDto> getAllDetails(@PathVariable Long perfId) {
         return perfDetailService.findAllByPerf(perfId);
     }
+
+    // 전체 조회 + 페이지네이션
 }
