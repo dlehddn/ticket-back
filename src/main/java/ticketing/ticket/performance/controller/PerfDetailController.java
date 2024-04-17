@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/perform-detail")
-@CrossOrigin(originPatterns = "http://localhost:8080")
 public class PerfDetailController {
 
     private final PerfDetailService perfDetailService;
