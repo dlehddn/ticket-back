@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/perform")
 @CrossOrigin(origins = "*")
 public class PerformanceController {
     private final PerformanceService performanceService;
@@ -41,7 +40,7 @@ public class PerformanceController {
     }
     ///////////////////////////////////// 공연 카테고리 ////////////////////////////////////
     // 공연 카테고리 저장
-    @PostMapping("/save")
+    @PostMapping("/perform/save")
     public void setPerformance(@RequestBody PerformanceDto performanceDto){
         
         performanceService.setPerformance(performanceDto);
@@ -49,12 +48,12 @@ public class PerformanceController {
 
 
     // 단일 공연 카테고리 조회
-    @GetMapping("/get-performance/{performanceId}")
+    @GetMapping("/perform/get-performance/{performanceId}")
     public PerformanceDto getPerformance(@PathVariable Long performanceId){
         return performanceService.getPerformance(performanceId);
     }
     // 모든 공연 카테고리 조회
-    @GetMapping("/all")
+    @GetMapping("/perform/all")
     public List<PerformanceDto> getAllPerformance() {
        List<PerformanceDto> dtoList = performanceService.getAllPerformance();
        
@@ -71,24 +70,24 @@ public class PerformanceController {
 
 
     // 공연 디테일 저장
-    @PostMapping("/set-performancedetail")
+    @PostMapping("/perform-detail/save")
     public void setPerformanceDetail(@RequestBody PerformanceDetailDto performanceDetailDto){
         performanceDetailService.setPerformanceDetail(performanceDetailDto);
     }
 
     // 공연 디테일 단건조회
-    @GetMapping("/get-performancedetail/{performanceDetailId}")
+    @GetMapping("/perform-detail/get-performancedetail/{performanceDetailId}")
     public PerformanceDetailDto gPerformanceDetail(@PathVariable Long performanceDetailId){
         return performanceDetailService.getPerformanceDetail(performanceDetailId);
     }
     
     // 공연 디테일 모두 조회
-    @GetMapping("/get-allperformancedetail")
+    @GetMapping("/perform-detail/get-allperformancedetail")
     public List<PerformanceDetailDto> getAllPerformanceDetail(){
         return performanceDetailService.getAllPerformanceDetail();
     }
     // 공연 카테고리로 디테일 조회
-    @GetMapping("/get-performancedetail-by-performanceid/{performanceId}")
+    @GetMapping("/perform-detail/{performanceId}")
     public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(@PathVariable Long performanceId){
         return performanceDetailService.getPerformanceDetailByPerformanceId(performanceId);
     }

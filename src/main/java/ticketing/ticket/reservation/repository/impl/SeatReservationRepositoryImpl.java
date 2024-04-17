@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import ticketing.ticket.reservation.domain.entity.SeatReservation;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
@@ -60,4 +61,16 @@ public class SeatReservationRepositoryImpl implements SeatReservationRepository 
     public SeatReservation findById(Long seatReservationId) {
         return em.find(SeatReservation.class, seatReservationId);
     }
+
+    @Override
+    public List<SeatReservation> findByperformDetailId(Long perfDetailId) {
+        TypedQuery<SeatReservation> query = em.createQuery(
+            "SELECT  sr FROM SeatReservation sr JOIN FETCH sr.performanceDetail JOIN FETCH sr.seat WHERE sr.performanceDetail.performanceDetailId = :perfDetailId",
+            SeatReservation.class
+        );
+        query.setParameter("perfDetailId", perfDetailId);
+       
+        return query.getResultList();
+    }
 }
+

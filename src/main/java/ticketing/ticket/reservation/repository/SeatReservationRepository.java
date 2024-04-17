@@ -10,4 +10,6 @@ public interface SeatReservationRepository {
     void save(SeatReservation seatReservation);
 
     SeatReservation findById(Long seatReservationId);
+    
+    List<SeatReservation> findByperformDetailId(Long performDetailId);
 }

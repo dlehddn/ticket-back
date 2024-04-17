@@ -12,6 +12,7 @@ import jakarta.persistence.OneToOne;
 import lombok.Data;
 import ticketing.ticket.base.BaseEntity;
 import ticketing.ticket.member.domain.entity.Member;
+import ticketing.ticket.reservation.domain.dto.MemberSeatReservationResponseDto;
 
 
 @Entity
@@ -30,6 +31,15 @@ public class MemberSeatReservation extends BaseEntity{
     private Member member;
 
     private Integer totalPrice;
+
+    public MemberSeatReservationResponseDto toDto() {
+        return MemberSeatReservationResponseDto.builder()
+        .memberSeatReservationId(this.memberSeatReservationId)
+        .memberName(this.member.getName())
+        .memberEamil(this.member.getEmail())
+        .totalPrice(this.totalPrice)
+        .build();
+    }
     
     
 }

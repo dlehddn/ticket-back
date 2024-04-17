@@ -12,7 +12,9 @@ import jakarta.persistence.Version;
 import lombok.Data;
 import ticketing.ticket.base.BaseEntity;
 
+
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
+import ticketing.ticket.reservation.domain.dto.SeatReservationResponseDto;
 import ticketing.ticket.seat.domain.entity.Seat;
 
 @Entity
@@ -37,7 +39,15 @@ public class SeatReservation extends BaseEntity {
     @Version
     private Long version;
    
-
+    public SeatReservationResponseDto toDto(){
+        return SeatReservationResponseDto.builder()
+        .seatReservationId(this.seatReservationId)
+        .seatName(this.seat.getName())
+        .available(this.available)
+        .performDetailId(this.performanceDetail.getPerformanceDetailId())
+        .grade(this.seat.getGrade())
+        .build();
+    }
     
     
 }

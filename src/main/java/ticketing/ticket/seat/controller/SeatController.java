@@ -21,7 +21,7 @@ public class SeatController {
         this.seatService = seatService;
     }
 
-    @PostMapping("/set-allseat")
+    @PostMapping("/all")
     public void setAllseat(
             @RequestParam("row") int row, 
             @RequestParam("col") int col ) {
