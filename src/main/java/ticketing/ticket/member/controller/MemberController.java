@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ticketing.ticket.member.domain.dto.JwtTokenDto;
-import ticketing.ticket.member.domain.dto.LogInDto;
-import ticketing.ticket.member.domain.dto.SignUpDto;
+import ticketing.ticket.member.domain.dto.*;
 import ticketing.ticket.member.domain.entity.Member;
 import ticketing.ticket.member.service.MemberService;
 
@@ -25,7 +23,7 @@ public class MemberController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Member> signIn(@RequestBody LogInDto logInDto) {
+    public ResponseEntity<MemberResponse> signIn(@RequestBody LogInDto logInDto) {
         return memberService.signIn(logInDto.getEmail(), logInDto.getPassword());
     }
 }

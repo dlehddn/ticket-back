@@ -2,26 +2,21 @@ package ticketing.ticket.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ticketing.ticket.jwt.JwtTokenProvider;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 import ticketing.ticket.member.domain.dto.LogInMemberDto;
+import ticketing.ticket.member.domain.dto.MemberResponse;
 import ticketing.ticket.member.domain.dto.SignUpDto;
 import ticketing.ticket.member.domain.entity.Member;
 import ticketing.ticket.member.repository.MemberRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +39,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public ResponseEntity<Member> signIn(String username, String password) {
+    public ResponseEntity<MemberResponse> signIn(String username, String password) {
 
         LogInMemberDto userDetails = (LogInMemberDto) customUserDetailsService.loadUserByUsername(username);
 
@@ -59,8 +54,13 @@ public class MemberService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtToken.getAccessToken());
 
+        Member member = ((LogInMemberDto) authentication.getPrincipal()).getMember();
         return ResponseEntity.ok()
                 .headers(httpHeaders)
-                .body(((LogInMemberDto) authentication.getPrincipal()).getMember());
+                .body(MemberResponse.builder()
+                        .memberId(member.getMemberId())
+                        .name(member.getName())
+                        .email(member.getEmail())
+                        .build());
     }
 }

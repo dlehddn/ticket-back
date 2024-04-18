@@ -32,6 +32,7 @@ public class CouponService {
         return couponRepository.findAll()
                 .stream()
                 .map(c -> CouponResponseDto.builder()
+                        .couponId(c.getCouponId())
                         .name(c.getName())
                         .percent(c.getPercent())
                         .quantity(c.getQuantity())
