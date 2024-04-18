@@ -3,7 +3,7 @@ package ticketing.ticket.reservation.domain.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.seat.domain.entity.Seat;
 

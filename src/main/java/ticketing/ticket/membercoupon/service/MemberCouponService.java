@@ -1,6 +1,7 @@
 package ticketing.ticket.membercoupon.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,6 @@ import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 import ticketing.ticket.membercoupon.repository.MemberCouponRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,15 +26,16 @@ public class MemberCouponService {
     private final MemberCouponRepository memberCouponRepository;
 
     public void saveCoupon(Long memberId, Long couponId) {
-        // 제약 조건 예외 가능 -> 0개 밑으로 떨어질 수 없다 + 쿠폰 중복 저장 안되게
+        // 제약 조건 예외 가능 -> 0개 밑으로 떨어질 수 없다
         couponRepository.update(couponId);
 
         // NoSuchElementException 가능
-        // 다른 커스텀 예외로 던지자
         Member member = memberRepository.findById(memberId)
                 .orElseThrow();
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow();
+
+        // 제약 조건 예외 가능 -> 중복 쿠폰 저장 상황
         memberCouponRepository.save(MemberCoupon.builder()
                 .member(member)
                 .coupon(coupon)

@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 
 @Entity
 @Data

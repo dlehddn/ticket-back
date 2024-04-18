@@ -1,10 +1,9 @@
 package ticketing.ticket.performance.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 

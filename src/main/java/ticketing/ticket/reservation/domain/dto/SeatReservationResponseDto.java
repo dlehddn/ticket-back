@@ -9,6 +9,7 @@ import ticketing.ticket.seat.domain.entity.Seat;
 @Setter
 @Builder
 public class SeatReservationResponseDto {
+    private Long seatReservationId;
     private Seat seat;
     private boolean available;
 }

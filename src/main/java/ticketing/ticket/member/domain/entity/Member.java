@@ -2,13 +2,11 @@ package ticketing.ticket.member.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ticketing.
-        ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 
 import java.util.ArrayList;

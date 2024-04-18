@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 import ticketing.ticket.coupon.domain.entity.Coupon;
 import ticketing.ticket.member.domain.entity.Member;
 
@@ -17,7 +17,7 @@ public class MemberCoupon extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberCouponId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 

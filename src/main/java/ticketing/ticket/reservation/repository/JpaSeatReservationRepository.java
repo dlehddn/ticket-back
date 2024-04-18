@@ -65,6 +65,7 @@ public class JpaSeatReservationRepository implements SeatReservationRepository{
 
         return resultList.stream()
                 .map(s -> SeatReservationResponseDto.builder()
+                        .seatReservationId(s.getSeatReservationId())
                         .seat(s.getSeat())
                         .available(s.isAvailable())
                         .build())

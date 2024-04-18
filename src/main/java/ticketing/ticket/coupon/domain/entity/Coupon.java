@@ -5,10 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 
 import java.time.LocalDate;
 

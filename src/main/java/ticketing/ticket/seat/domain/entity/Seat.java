@@ -3,7 +3,7 @@ package ticketing.ticket.seat.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.common.entity.BaseEntity;
 
 @Entity
 @Data

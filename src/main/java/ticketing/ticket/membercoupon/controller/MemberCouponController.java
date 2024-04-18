@@ -27,6 +27,5 @@ public class MemberCouponController {
         return ResponseEntity.ok(memberCouponService.getMyCoupons(memberId));
     }
 
-    // 내 쿠폰 전체 조회 추가해야함
 
 }
