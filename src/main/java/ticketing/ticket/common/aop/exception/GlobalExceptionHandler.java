@@ -10,6 +10,7 @@ import ticketing.ticket.common.error.ErrorCode;
 import ticketing.ticket.common.error.ErrorResponse;
 import ticketing.ticket.common.error.SQLErrorCode;
 import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
+import ticketing.ticket.reservation.exception.InvalidPriceException;
 
 import java.sql.SQLException;
 
@@ -44,6 +45,12 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(InvalidPriceException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPriceException(InvalidPriceException e) {
+        ErrorCode errorCode = e.getErrorCode();
+        return makeResponseEntity(errorCode);
+    }
+
     private ResponseEntity<ErrorResponse> makeResponseEntity(ErrorCode errorCode) {
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
@@ -56,6 +63,5 @@ public class GlobalExceptionHandler {
                 .message(errorCode.getMessage())
                 .build();
     }
-
 
 }

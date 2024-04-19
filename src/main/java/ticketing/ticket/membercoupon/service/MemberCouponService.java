@@ -64,6 +64,7 @@ public class MemberCouponService {
                 .stream()
                 .map(mc -> MyCouponsDto.builder()
                         .coupon(mc.getCoupon())
+                        .memberCouponId(mc.getMemberCouponId())
                         .build())
                 .collect(Collectors.toList());
 

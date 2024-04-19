@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class MemSeatReservationDto {
     private Long seatReservationId;
+    private Long memberCouponId;
     private Long memberId;
     private Integer totalPrice;
 }

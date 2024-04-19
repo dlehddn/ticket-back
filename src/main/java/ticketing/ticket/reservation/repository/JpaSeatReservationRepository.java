@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -70,5 +71,10 @@ public class JpaSeatReservationRepository implements SeatReservationRepository{
                         .available(s.isAvailable())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<SeatReservation> findById(Long id) {
+        return Optional.ofNullable(em.find(SeatReservation.class, id));
     }
 }

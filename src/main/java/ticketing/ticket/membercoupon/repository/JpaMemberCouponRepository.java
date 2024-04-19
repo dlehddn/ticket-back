@@ -20,4 +20,13 @@ public class JpaMemberCouponRepository implements MemberCouponRepository{
         em.persist(memberCoupon);
     }
 
+    @Override
+    public Optional<MemberCoupon> findById(Long id) {
+        return Optional.ofNullable(em.find(MemberCoupon.class, id));
+    }
+
+    @Override
+    public void delete(MemberCoupon memberCoupon) {
+        em.remove(memberCoupon);
+    }
 }
