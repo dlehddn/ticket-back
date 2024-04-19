@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum SQLErrorCode implements ErrorCode{
     INSUFFICIENT_COUPON(HttpStatus.FORBIDDEN, "쿠폰이 소진되었습니다."),
-    DUPLICATED_COUPON(HttpStatus.FORBIDDEN, "이미 발급된 쿠폰입니다."),
-    COMMON_ERROR(HttpStatus.FORBIDDEN, "제약조건 위반");
+    DUPLICATED_COUPON(HttpStatus.FORBIDDEN, "이미 발급된 쿠폰입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

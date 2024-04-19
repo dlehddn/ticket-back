@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.membercoupon.domain.dto.CouponSaveDto;
 import ticketing.ticket.membercoupon.domain.dto.MyCouponsDto;
-import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 import ticketing.ticket.membercoupon.service.MemberCouponService;
 
 import java.util.List;
