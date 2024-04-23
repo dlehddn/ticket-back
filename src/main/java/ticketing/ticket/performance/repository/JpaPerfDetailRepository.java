@@ -39,7 +39,7 @@ public class JpaPerfDetailRepository implements PerfDetailRepository {
 
     @Override
     public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
-        String jpql = "select p from PerformanceDetail p where " +
+        String jpql = "select p from PerformanceDetail p join fetch p.performance where " +
                 "(:perfId is null or p.performance.id = :perfId) and " +
                 "(:title is null or p.artist like concat('%', :title, '%')) and " +
                 "(:button is null or " +

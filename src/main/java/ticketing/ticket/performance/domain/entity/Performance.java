@@ -1,14 +1,12 @@
 package ticketing.ticket.performance.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
 import ticketing.ticket.common.entity.BaseEntity;
 
 @Entity
-@Data
+@Getter
 public class Performance extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +14,7 @@ public class Performance extends BaseEntity {
 
     private String name;
 
+    @Builder
     public Performance(String name) {
         this.name = name;
     }

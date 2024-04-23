@@ -1,4 +1,4 @@
-package ticketing.ticket.jwt;
+package ticketing.ticket.common.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

@@ -14,7 +14,7 @@ public class PerformanceDetail extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long performanceDetailId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "performance_id")
     private Performance performance;
 

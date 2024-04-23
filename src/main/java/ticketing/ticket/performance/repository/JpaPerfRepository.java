@@ -16,7 +16,9 @@ public class JpaPerfRepository implements PerfRepository {
 
     @Override
     public void save(PerfDto perfDto) {
-        Performance performance = new Performance(perfDto.getName());
+        Performance performance = Performance.builder()
+                .name(perfDto.getName())
+                .build();
         em.persist(performance);
     }
 

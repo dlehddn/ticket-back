@@ -25,9 +25,9 @@ class MemSeatReservationServiceTest {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         CountDownLatch countDownLatch = new CountDownLatch(2);
         MemSeatReservationDto reservationDto = MemSeatReservationDto.builder()
-                .seatReservationId(24L)
-                .memberId(10L)
-                .totalPrice(2000)
+                .seatReservationId(126L)
+                .memberId(1L)
+                .totalPrice(500)
                 .build();
         AtomicBoolean isDuplicated = new AtomicBoolean(false);
         //when

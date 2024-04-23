@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ticketing.ticket.jwt.JwtTokenProvider;
+import ticketing.ticket.common.jwt.JwtTokenProvider;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 import ticketing.ticket.member.domain.dto.LogInMemberDto;
 import ticketing.ticket.member.domain.dto.MemberResponse;

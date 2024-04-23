@@ -3,7 +3,6 @@ package ticketing.ticket.coupon.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.coupon.domain.entity.Coupon;
 
