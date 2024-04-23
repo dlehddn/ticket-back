@@ -3,6 +3,7 @@ package ticketing.ticket.performance.repository;
 
 import java.util.List;
 
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 
 public interface PerformanceDetailRepository {
@@ -13,7 +14,7 @@ public interface PerformanceDetailRepository {
     List<PerformanceDetail> findAll();
 
     //카테고리별 조회
-    List<PerformanceDetail> findByPerformanceId(Long PerformanceId);
+    List<PerformanceDetail> findByPerformanceId(PerfSearchDto perfSearchDto);
 
 
     void deleteById(Long performanceDetailId);

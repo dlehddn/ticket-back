@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import ticketing.ticket.base.BaseEntity;
+import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 
 import java.time.LocalDateTime;
 
@@ -42,4 +43,15 @@ public class PerformanceDetail extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "performance_id")
     private Performance performance;
+    
+    public PerformanceDetailDto toDto() {
+        return PerformanceDetailDto.builder()
+            .id(this.performanceDetailId)
+            .artist(this.artist)
+            .startTime(this.startTime)
+            .endTime(this.endTime)
+            .price(this.price)
+            .performanceId(this.performance.getPerformanceId())
+            .build();
+    }
 }

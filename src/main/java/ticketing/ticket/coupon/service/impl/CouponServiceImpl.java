@@ -23,11 +23,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public void setCoupon(CouponDto couponDto) {
-        Coupon coupon = new Coupon();
-        coupon.setCouponName(couponDto.getCouponName());
-        coupon.setEndDate(couponDto.getEndDate());
-        coupon.setPercent(couponDto.getPercent());
-        coupon.setQuantity(couponDto.getQuantity());
+        Coupon coupon = couponDto.toEntity();
         couponRepository.save(coupon);
     }
 

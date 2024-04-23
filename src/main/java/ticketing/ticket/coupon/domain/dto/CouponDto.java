@@ -19,7 +19,7 @@ public class CouponDto {
     
     private Long couponId;
 
-    private String couponName;
+    private String name;
 
     private Double percent;
 
@@ -36,7 +36,7 @@ public class CouponDto {
     public Coupon toEntity() {
         Coupon coupon = new Coupon();
         coupon.setCouponId(this.couponId);
-        coupon.setCouponName(this.couponName);
+        coupon.setName(this.name);
         coupon.setPercent(this.percent);
         coupon.setEndDate(this.endDate);
         coupon.setQuantity(this.quantity);

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 import ticketing.ticket.member.domain.dto.LoginDto;
 import ticketing.ticket.member.domain.dto.MemberDto;
+import ticketing.ticket.member.domain.dto.MemberResponse;
 import ticketing.ticket.member.service.MemberService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +27,16 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public void setMember (@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Void> setMember (@RequestBody MemberDto memberDto) {
         memberService.signUp(memberDto);
+        return ResponseEntity.ok().build();
     }
     
     @PostMapping("/signin")
-    public ResponseEntity<JwtTokenDto> signIn(@RequestBody LoginDto loginDto){
-      JwtTokenDto  jwtToken =  memberService.signIn(loginDto.getEmail(), loginDto.getPassword());
+    public ResponseEntity<MemberResponse> signIn(@RequestBody LoginDto loginDto){
 
-      return ResponseEntity.ok(jwtToken);
+      return memberService.signIn(loginDto.getEmail(), loginDto.getPassword());
+     
     }
 
 

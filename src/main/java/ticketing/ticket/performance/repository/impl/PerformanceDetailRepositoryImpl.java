@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.performance.repository.PerformanceDetailRepository;
 
@@ -31,13 +32,42 @@ public class PerformanceDetailRepositoryImpl implements PerformanceDetailReposit
     }
     // 카테고리별 조회
     @Override
-    public List<PerformanceDetail> findByPerformanceId(Long PerformanceId) {
-        TypedQuery<PerformanceDetail> query = em.createQuery("select pd from PerformanceDetail pd where pd.performance.performanceId = :PerformanceId", PerformanceDetail.class);
-        query.setParameter("PerformanceId", PerformanceId);
-        List<PerformanceDetail> list = new ArrayList<>();
-        list = query.getResultList();
+    public List<PerformanceDetail> findByPerformanceId(PerfSearchDto perfSearchDto) {
+         String jpql = "select p from PerformanceDetail p join fetch p.performance where " +
+                "(:perfId is null or p.performance.id = :perfId) and " +
+                "(:title is null or p.artist like concat('%', :title, '%')) and " +
+                "(:button is null or " +
+                "(:button = 'next' and p.id > :index) or " +
+                "(:button = 'previous' and p.id < :index)) " +
+                "order by case when :button = 'next' then p.id end asc, " +
+                "case when :button = 'previous' then p.id end desc";
 
-        return list;
+        TypedQuery<PerformanceDetail> query = em.createQuery(jpql, PerformanceDetail.class);
+        if (perfSearchDto.getPerfId() != null) {
+            query.setParameter("perfId", perfSearchDto.getPerfId());
+        } else {
+            query.setParameter("perfId", null);
+        }
+        if (perfSearchDto.getIndex() != null) {
+            query.setParameter("index", perfSearchDto.getIndex());
+        } else {
+            query.setParameter("index", null);
+        }
+        if (perfSearchDto.getButton() != null) {
+            query.setParameter("button", perfSearchDto.getButton());
+        } else {
+            query.setParameter("button", null);
+        }
+        if (perfSearchDto.getTitle() != null) {
+            query.setParameter("title", perfSearchDto.getTitle());
+        } else {
+            query.setParameter("title", null);
+        }
+        query.setMaxResults(perfSearchDto.getSize());
+
+        List<PerformanceDetail> resultList = query.getResultList();
+
+        return resultList;
     }
    
     // 모두 조회

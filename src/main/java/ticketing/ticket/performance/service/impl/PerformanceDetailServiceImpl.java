@@ -4,9 +4,11 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 import ticketing.ticket.performance.repository.PerformanceDetailRepository;
@@ -55,47 +57,25 @@ public class PerformanceDetailServiceImpl implements PerformanceDetailService{
     @Override
     public PerformanceDetailDto getPerformanceDetail(Long performanceDetailId) {
         PerformanceDetail performanceDetail = performanceDetailRepository.findById(performanceDetailId);
-        PerformanceDetailDto performanceDetailDto = new PerformanceDetailDto();
-        performanceDetailDto.setPerformanceDetailId(performanceDetail.getPerformanceDetailId());
-        performanceDetailDto.setArtist(performanceDetail.getArtist());
-        performanceDetailDto.setStartTime(performanceDetail.getStartTime());
-        performanceDetailDto.setEndTime(performanceDetail.getEndTime());
-        performanceDetailDto.setPrice(performanceDetail.getPrice());
-        performanceDetailDto.setPerformanceId(performanceDetail.getPerformance().getPerformanceId());
-        return performanceDetailDto;
+        return performanceDetail.toDto();
     }
     // 공연 디테일 모두 조회
     @Override
     public List<PerformanceDetailDto> getAllPerformanceDetail() {
         List<PerformanceDetail> performanceDetailList = performanceDetailRepository.findAll();
-        List<PerformanceDetailDto> dtoList = new ArrayList<>();
-        performanceDetailList.forEach(pd->{
-            PerformanceDetailDto performanceDetailDto = new PerformanceDetailDto();
-            performanceDetailDto.setPerformanceDetailId(pd.getPerformanceDetailId());
-            performanceDetailDto.setArtist(pd.getArtist());
-            performanceDetailDto.setStartTime(pd.getStartTime());
-            performanceDetailDto.setEndTime(pd.getEndTime());
-            performanceDetailDto.setPrice(pd.getPrice());
-            performanceDetailDto.setPerformanceId(pd.getPerformance().getPerformanceId());
-            dtoList.add(performanceDetailDto);
-        });
+        List<PerformanceDetailDto> dtoList = performanceDetailList.stream()
+            .map(PerformanceDetail::toDto)
+            .collect(Collectors.toList());
         return dtoList;
     }
     @Override
-    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(Long PerformanceId) {
-      List<PerformanceDetail> performanceDetailList = performanceDetailRepository.findByPerformanceId(PerformanceId);
-      List<PerformanceDetailDto> dtoList = new ArrayList<>();
-      performanceDetailList.forEach(pd->{
-            PerformanceDetailDto performanceDetailDto = new PerformanceDetailDto();
-            performanceDetailDto.setPerformanceDetailId(pd.getPerformanceDetailId());
-            performanceDetailDto.setArtist(pd.getArtist());
-            performanceDetailDto.setStartTime(pd.getStartTime());
-            performanceDetailDto.setEndTime(pd.getEndTime());
-            performanceDetailDto.setPrice(pd.getPrice());
-            performanceDetailDto.setPerformanceId(pd.getPerformance().getPerformanceId());
-            dtoList.add(performanceDetailDto);
-        });
-        return dtoList;
+    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(PerfSearchDto perfSearchDto) {
+       List<PerformanceDetail> pdList = performanceDetailRepository.findByPerformanceId(perfSearchDto);
+       List<PerformanceDetailDto> dtoList = new ArrayList<>();
+       pdList.stream()
+       .map(PerformanceDetail::toDto)
+       .forEach(dtoList::add);
+       return dtoList;
     }
 
     @Override

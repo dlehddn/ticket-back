@@ -19,7 +19,7 @@ public class Coupon  extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long couponId;
 
-    private String couponName;
+    private String name;
 
     private Double percent;
 
@@ -34,7 +34,7 @@ public class Coupon  extends BaseEntity{
     public CouponDto toDto() {
         CouponDto dto = new CouponDto();
         dto.setCouponId(this.couponId);
-        dto.setCouponName(this.couponName);
+        dto.setName(this.name);
         dto.setPercent(this.percent);
         dto.setEndDate(this.endDate);
         dto.setQuantity(this.quantity);
@@ -44,3 +44,4 @@ public class Coupon  extends BaseEntity{
         return dto;
     }
 }
+

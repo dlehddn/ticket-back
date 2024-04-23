@@ -1,5 +1,6 @@
 package ticketing.ticket.performance.service;
 
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface PerformanceDetailService {
     void deletePerformanceDetail(Long performanceDetailId);
 
     // 카테고리별 조회
-    List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(Long PerformanceId);
+    List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(PerfSearchDto perfSearchDto);
 }

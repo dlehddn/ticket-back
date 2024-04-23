@@ -1,6 +1,7 @@
 package ticketing.ticket.performance.domain.dto;
 
 
+import lombok.Builder;
 import lombok.Data;
 import ticketing.ticket.performance.domain.entity.Performance;
 
@@ -15,8 +16,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 @Data
+@Builder
 public class PerformanceDetailDto {
-    private Long performanceDetailId;
+    private Long id;
 
     private Long performanceId;
 

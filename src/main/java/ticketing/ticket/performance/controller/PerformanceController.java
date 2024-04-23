@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDto;
 import ticketing.ticket.performance.service.PerformanceDetailService;
@@ -87,9 +88,9 @@ public class PerformanceController {
         return performanceDetailService.getAllPerformanceDetail();
     }
     // 공연 카테고리로 디테일 조회
-    @GetMapping("/perform-detail/{performanceId}")
-    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(@PathVariable Long performanceId){
-        return performanceDetailService.getPerformanceDetailByPerformanceId(performanceId);
+    @PostMapping("/perform-detail/all")
+    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(@RequestBody PerfSearchDto perfSearchDto){
+        return performanceDetailService.getPerformanceDetailByPerformanceId(perfSearchDto);
     }
 
     
