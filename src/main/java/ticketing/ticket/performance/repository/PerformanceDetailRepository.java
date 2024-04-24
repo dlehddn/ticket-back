@@ -3,6 +3,8 @@ package ticketing.ticket.performance.repository;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
 
@@ -18,4 +20,6 @@ public interface PerformanceDetailRepository {
 
 
     void deleteById(Long performanceDetailId);
+
+    Long findMaxIdByPerformanceId(Long performanceId);
 }
