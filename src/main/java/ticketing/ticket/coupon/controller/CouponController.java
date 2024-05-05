@@ -17,8 +17,9 @@ public class CouponController {
     private final CouponService couponService;
 
     @PostMapping("/save")
-    public void createCoupon(@RequestBody CouponSaveDto couponSaveDto) {
+    public ResponseEntity<Void> createCoupon(@RequestBody final CouponSaveDto couponSaveDto) {
         couponService.createCoupon(couponSaveDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/all")

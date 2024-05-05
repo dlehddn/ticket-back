@@ -18,19 +18,19 @@ public class PerfDetailController {
     private final PerfDetailService perfDetailService;
 
     @PostMapping("/save/{perfId}")
-    public void creatPerfDetail(@RequestBody PerfDetailSaveDto saveDto, @PathVariable Long perfId) {
+    public ResponseEntity<Void> creatPerfDetail(@RequestBody final PerfDetailSaveDto saveDto, @PathVariable Long perfId) {
         perfDetailService.savePerfDetail(saveDto, perfId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{perfId}")
-    public PerfDetailResponseDto getPerfDetail(@PathVariable Long perfDetailId) {
-        return perfDetailService.findById(perfDetailId);
+    public ResponseEntity<PerfDetailResponseDto> getPerfDetail(@PathVariable Long perfDetailId) {
+        return ResponseEntity.ok(perfDetailService.findById(perfDetailId));
     }
 
     @PostMapping("/all")
-    public List<PerfDetailResponseDto> getAllDetails(@RequestBody PerfSearchDto perfSearchDto) {
-        System.out.println(perfSearchDto.getSize());
-        return perfDetailService.findAllByPerf(perfSearchDto);
+    public ResponseEntity<List<PerfDetailResponseDto>> getAllDetails(@RequestBody final PerfSearchDto perfSearchDto) {
+        return ResponseEntity.ok(perfDetailService.findAllByPerf(perfSearchDto));
     }
 
 }

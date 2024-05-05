@@ -1,6 +1,8 @@
 package ticketing.ticket.performance.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.performance.domain.dto.PerfDto;
 import ticketing.ticket.performance.domain.entity.Performance;
@@ -16,8 +18,9 @@ public class PerfController {
     private final PerfService perfService;
 
     @PostMapping("/save")
-    public void creatPerformance(@RequestBody PerfDto perfDto) {
+    public ResponseEntity<Void> creatPerformance(@RequestBody final PerfDto perfDto) {
         perfService.savePerformance(perfDto);
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping("/{performId}")
@@ -26,8 +29,8 @@ public class PerfController {
 //    }
 
     @GetMapping("/all")
-    public List<Performance> getAll() {
-        return perfService.findAll();
+    public ResponseEntity<List<Performance>> getAll() {
+        return ResponseEntity.ok(perfService.findAll());
     }
 
 }
