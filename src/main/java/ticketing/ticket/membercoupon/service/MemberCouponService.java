@@ -2,7 +2,6 @@ package ticketing.ticket.membercoupon.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
 import ticketing.ticket.membercoupon.repository.MemberCouponRepository;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +32,7 @@ public class MemberCouponService {
          * check 제약조건 예외 가능
          * -> 트랜잭션이 커밋될 때 발생하므로 controller 에서 예외처리를 해야함.
          * -> 예외 누수 문제
+         * -> ControllerAdvice 에서 전역적으로 예외를 관리
          * -> check 제약 조건은 해당 테이블에서 유일하므로 직접 errorCode + sqlState 로 catch
          * SQL Error: 3819, SQLState: HY000
          */
