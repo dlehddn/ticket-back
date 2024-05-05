@@ -19,8 +19,9 @@ public class MemSeatReservationController {
     private final MemSeatReservationService memSeatReservationService;
 
     @PostMapping("/save")
-    public void createTicket(@RequestBody MemSeatReservationDto reservationDto) {
+    public ResponseEntity<Void> createTicket(@RequestBody final MemSeatReservationDto reservationDto) {
         memSeatReservationService.reserveTicket(reservationDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{memberId}")

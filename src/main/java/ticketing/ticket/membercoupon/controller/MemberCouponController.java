@@ -17,8 +17,9 @@ public class MemberCouponController {
     private final MemberCouponService memberCouponService;
 
     @PostMapping("/save")
-    public void saveCoupon(@RequestBody CouponSaveDto saveDto) {
+    public ResponseEntity<Void> saveCoupon(@RequestBody final CouponSaveDto saveDto) {
         memberCouponService.saveCoupon(saveDto.getMemberId(), saveDto.getCouponId());
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/all/{memberId}")

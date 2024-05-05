@@ -17,13 +17,13 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<Void> signUp(@RequestBody final SignUpDto signUpDto) {
         memberService.saveMember(signUpDto);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<MemberResponse> signIn(@RequestBody LogInDto logInDto) {
+    public ResponseEntity<MemberResponse> signIn(@RequestBody final LogInDto logInDto) {
         return memberService.signIn(logInDto.getEmail(), logInDto.getPassword());
     }
 }

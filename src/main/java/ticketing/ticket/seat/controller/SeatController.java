@@ -1,6 +1,7 @@
 package ticketing.ticket.seat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.seat.domain.dto.BulkSeatSaveDto;
 import ticketing.ticket.seat.domain.dto.SeatSaveRequest;
@@ -14,8 +15,9 @@ public class SeatController {
     private final SeatService seatService;
 
     @PostMapping("/save")
-    public void createSeat(@RequestBody SeatSaveRequest dto) {
+    public ResponseEntity<Void> createSeat(@RequestBody final SeatSaveRequest dto) {
         seatService.bulkSeatSave(dto.getRow(), dto.getCol());
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping("/{seatId}")

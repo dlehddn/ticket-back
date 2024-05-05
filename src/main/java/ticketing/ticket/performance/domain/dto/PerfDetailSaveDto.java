@@ -1,12 +1,11 @@
 package ticketing.ticket.performance.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 public class PerfDetailSaveDto {
     private String artist;
 
