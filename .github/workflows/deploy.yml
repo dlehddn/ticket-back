@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-#        token: ${{ secrets.SUBMODULE_KEY }}
+        token: ${{ secrets.SUBMODULE_KEY }}
         submodules: recursive
 
     - name: Set up JDK 17
