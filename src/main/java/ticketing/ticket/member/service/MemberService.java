@@ -8,5 +8,6 @@ import ticketing.ticket.member.domain.dto.MemberResponse;
 
 public interface MemberService {
     void signUp(MemberDto memberDto);
+    void adminSignUp(MemberDto memberDto);
     ResponseEntity<MemberResponse> signIn(String username, String password);
 }

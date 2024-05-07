@@ -21,5 +21,11 @@ public interface PerformanceDetailRepository {
 
     void deleteById(Long performanceDetailId);
 
+    Long findMaxId();
+     
+    Long findMinId();
+
     Long findMaxIdByPerformanceId(Long performanceId);
+
+    Long findMinIdByPerformanceId(Long performanceId);
 }

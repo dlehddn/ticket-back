@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ticketing.ticket.exeption.PageantionException;
+import ticketing.ticket.performance.domain.dto.IdxInfoDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDto;
@@ -17,6 +19,11 @@ import ticketing.ticket.performance.service.impl.PerformanceDetailServiceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +48,15 @@ public class PerformanceController {
     }
     ///////////////////////////////////// 공연 카테고리 ////////////////////////////////////
     // 공연 카테고리 저장
+    
     @PostMapping("/perform/save")
     public void setPerformance(@RequestBody PerformanceDto performanceDto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authority = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .findFirst()
+            .orElse(null);
+        System.out.println("Current authority: " + authority);
         
         performanceService.setPerformance(performanceDto);
     }
@@ -71,6 +85,7 @@ public class PerformanceController {
 
 
     // 공연 디테일 저장
+    @Secured("ROLE_ADMIN")
     @PostMapping("/perform-detail/save")
     public void setPerformanceDetail(@RequestBody PerformanceDetailDto performanceDetailDto){
         performanceDetailService.setPerformanceDetail(performanceDetailDto);
@@ -89,7 +104,7 @@ public class PerformanceController {
     }
     // 공연 카테고리로 디테일 조회
     @PostMapping("/perform-detail/all")
-    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(@RequestBody PerfSearchDto perfSearchDto){
+    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId (@RequestBody PerfSearchDto perfSearchDto) throws PageantionException {
         return performanceDetailService.getPerformanceDetailByPerformanceId(perfSearchDto);
     }
 
@@ -99,6 +114,18 @@ public class PerformanceController {
     public void deletePerformanceDetail(@PathVariable Long PerformanceDetailId){
         performanceDetailService.deletePerformanceDetail(PerformanceDetailId);
     }
-    
+    // 
+    @GetMapping("/perform-detail/get-idxinfo/{performanceId}")
+    public IdxInfoDto getIdxInfo(@PathVariable Long performanceId){
+
+      
+        return performanceDetailService.getIdxInfoByPerformanceId(performanceId);
+       
+    }
+    @GetMapping("/perform-detail/get-idxinfo/null")
+    public IdxInfoDto getIdxInfo(){
+        return performanceDetailService.getIdxInfo();
+    }
+
     
 }

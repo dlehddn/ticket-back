@@ -39,5 +39,14 @@ public class MemberController {
      
     }
 
+    //////////관리자 회원가입/////////////////////
+
+    @PostMapping("/admin-signup")
+    public ResponseEntity<Void> adminSignUp(@RequestBody MemberDto memberDto){
+        memberService.adminSignUp(memberDto);
+        return ResponseEntity.ok().build();
+    }
+
+    
 
 }

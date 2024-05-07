@@ -1,5 +1,6 @@
 package ticketing.ticket.performance.service;
 
+import ticketing.ticket.performance.domain.dto.IdxInfoDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import java.util.List;
@@ -19,4 +20,8 @@ public interface PerformanceDetailService {
 
     // 카테고리별 조회
     List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(PerfSearchDto perfSearchDto);
+
+    IdxInfoDto getIdxInfoByPerformanceId(Long performanceId);
+
+    IdxInfoDto getIdxInfo();
 }

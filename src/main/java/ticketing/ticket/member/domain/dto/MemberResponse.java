@@ -8,11 +8,14 @@ public class MemberResponse {
     private Long memberId;
     private String name;
     private String email;
+    private String authority;
 
     @Builder
-    public MemberResponse(Long memberId, String name, String email) {
+    public MemberResponse(Long memberId, String name, String email, String authority) {
         this.memberId = memberId;
         this.name = name;
         this.email = email;
+        this.authority = authority;
     }
 }
+

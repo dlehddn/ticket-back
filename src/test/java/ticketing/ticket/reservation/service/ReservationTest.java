@@ -37,7 +37,7 @@ public class ReservationTest {
         for (int i = 1; i <= 5; i++) {
             ReservationRequestDto  requestDto = new ReservationRequestDto();
             requestDto.setMemberId((long) i);
-            requestDto.setSeatReservationId(144L); 
+            requestDto.setSeatReservationId(1469L); 
             dtos.add(requestDto);
         }
 

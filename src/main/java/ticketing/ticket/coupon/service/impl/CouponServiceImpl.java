@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import ticketing.ticket.coupon.domain.dto.CouponDto;
 import ticketing.ticket.coupon.domain.entity.Coupon;
-import ticketing.ticket.coupon.domain.repository.CouponRepository;
+import ticketing.ticket.coupon.repository.CouponRepository;
 import ticketing.ticket.coupon.service.CouponService;
 import java.util.*;
 @Service

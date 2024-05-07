@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import ticketing.ticket.exeption.PageantionException;
+import ticketing.ticket.performance.domain.dto.IdxInfoDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
@@ -48,6 +50,7 @@ public class PerformanceDetailServiceImpl implements PerformanceDetailService{
             seatReservation.setSeat(s);
             srList.add(seatReservation);
         });
+        
         seatReservationRepository.bulkInsert(srList);
 
 
@@ -69,7 +72,15 @@ public class PerformanceDetailServiceImpl implements PerformanceDetailService{
         return dtoList;
     }
     @Override
-    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(PerfSearchDto perfSearchDto) {
+    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId(PerfSearchDto perfSearchDto) throws PageantionException  {
+        if (perfSearchDto.getIndex() != null) {
+            if (Long.valueOf(perfSearchDto.getIndex()).equals(performanceDetailRepository.findMinIdByPerformanceId(perfSearchDto.getPerfId()))) { // 마지막 페이지인 경우
+                throw new PageantionException("마지막 페이지 입니다.");
+             } else if(Long.valueOf(perfSearchDto.getIndex()).equals(performanceDetailRepository.findMaxIdByPerformanceId(perfSearchDto.getPerfId()))) { // 첫 페이지인 경우
+                 throw new PageantionException("첫 페이지 입니다.");
+             }
+        }
+        
        List<PerformanceDetail> pdList = performanceDetailRepository.findByPerformanceId(perfSearchDto);
        List<PerformanceDetailDto> dtoList = new ArrayList<>();
        pdList.stream()
@@ -81,6 +92,19 @@ public class PerformanceDetailServiceImpl implements PerformanceDetailService{
     @Override
     public void deletePerformanceDetail(Long performanceDetailId) {
         performanceDetailRepository.deleteById(performanceDetailId);
+    }
+    @Override
+    public IdxInfoDto getIdxInfoByPerformanceId (Long performanceId) {
+        Long maxIdx = performanceDetailRepository.findMaxIdByPerformanceId(performanceId);
+        Long minIdx = performanceDetailRepository.findMinIdByPerformanceId(performanceId);
+        return IdxInfoDto.builder().maxIdx(maxIdx).minIdx(minIdx).build();
+    }
+    @Override
+    public IdxInfoDto getIdxInfo() {
+        // TODO Auto-generated method stub
+       Long maxIdx = performanceDetailRepository.findMaxId();
+       Long minIdx = performanceDetailRepository.findMinId();
+       return IdxInfoDto.builder().maxIdx(maxIdx).minIdx(minIdx).build();
     }
     
 }

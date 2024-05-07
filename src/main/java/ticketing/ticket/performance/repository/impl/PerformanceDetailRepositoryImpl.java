@@ -56,7 +56,6 @@ public class PerformanceDetailRepositoryImpl implements PerformanceDetailReposit
             query.setParameter("index", perfSearchDto.getIndex());
         } else {
             Long index = findMaxIdByPerformanceId(perfSearchDto.getPerfId()) + 1;
-            System.out.println("index = " + index);
             query.setParameter("index", index);
         }
         if (perfSearchDto.getButton() != null) {
@@ -103,7 +102,36 @@ public class PerformanceDetailRepositoryImpl implements PerformanceDetailReposit
     }
 
     return em.createQuery(query).getSingleResult();
-}
-    
+    }   
+    @Override
+    public Long findMinIdByPerformanceId(Long performanceId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<PerformanceDetail> root = query.from(PerformanceDetail.class);
+
+        query.select(cb.min(root.get("id")));  // 최소 ID를 선택
+
+        if (performanceId != null) {
+            query.where(cb.equal(root.get("performance").get("id"), performanceId));
+        }
+
+        return em.createQuery(query).getSingleResult();
+    }
+    @Override
+    public Long findMaxId() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<PerformanceDetail> root = query.from(PerformanceDetail.class);
+        query.select(cb.max(root.get("id")));
+        return em.createQuery(query).getSingleResult();
+    }
+    @Override
+    public Long findMinId() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<PerformanceDetail> root = query.from(PerformanceDetail.class);
+        query.select(cb.min(root.get("id")));
+        return em.createQuery(query).getSingleResult();
+    }
     
 }

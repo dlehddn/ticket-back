@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ticketing.ticket.seat.service.SeatService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -20,7 +21,7 @@ public class SeatController {
     public SeatController(SeatService seatService){
         this.seatService = seatService;
     }
-
+    @Secured("ROLE_ADMIN")
     @PostMapping("/all")
     public void setAllseat(
             @RequestParam("row") int row, 
