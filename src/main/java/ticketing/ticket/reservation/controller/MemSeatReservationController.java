@@ -1,9 +1,7 @@
 package ticketing.ticket.reservation.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import ticketing.ticket.reservation.domain.dto.MemSeatReservationDto;
 import ticketing.ticket.reservation.domain.dto.MemSeatReservationResponseDto;

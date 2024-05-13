@@ -14,6 +14,7 @@ import ticketing.ticket.reservation.repository.MemSeatReservationRepository;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,6 @@ public class MemSeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
     private final MemberCouponRepository memberCouponRepository;
 
-    @Transactional
     public void reserveTicket(MemSeatReservationDto reservationDto) {
         double realTotalPrice = calculateTotalPrice(reservationDto);
         if (!priceIsSame(realTotalPrice, reservationDto.getTotalPrice())) {
@@ -35,7 +35,30 @@ public class MemSeatReservationService {
     }
 
     public List<MemSeatReservationResponseDto> getMyReservations(Long memberId) {
-        return memSeatReservationRepository.findAllByMemberId(memberId);
+        return memSeatReservationRepository.findAllByMemberId(memberId).stream()
+                .map(msr -> MemSeatReservationResponseDto.builder()
+                        .category(msr.getSeatReservation()
+                                .getPerformanceDetail()
+                                .getPerformance()
+                                .getName())
+                        .artist(msr.getSeatReservation()
+                                .getPerformanceDetail()
+                                .getArtist())
+                        .startTime(msr.getSeatReservation()
+                                .getPerformanceDetail()
+                                .getStartTime())
+                        .endTime(msr.getSeatReservation()
+                                .getPerformanceDetail()
+                                .getEndTime())
+                        .seatName(msr.getSeatReservation()
+                                .getSeat()
+                                .getName())
+                        .seatGrade(msr.getSeatReservation()
+                                .getSeat()
+                                .getGrade())
+                        .totalPrice(msr.getTotalPrice())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private double calculateTotalPrice(MemSeatReservationDto reservationDto) {

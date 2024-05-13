@@ -10,5 +10,5 @@ public interface MemSeatReservationRepository {
 
     void save(MemSeatReservationDto reservationDto);
 
-    List<MemSeatReservationResponseDto> findAllByMemberId(Long memberId);
+    List<MemberSeatReservation> findAllByMemberId(Long memberId);
 }

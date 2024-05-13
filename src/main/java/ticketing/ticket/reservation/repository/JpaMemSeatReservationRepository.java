@@ -32,19 +32,13 @@ public class JpaMemSeatReservationRepository implements MemSeatReservationReposi
     }
 
     @Override
-    public List<MemSeatReservationResponseDto> findAllByMemberId(Long memberId) {
+    public List<MemberSeatReservation> findAllByMemberId(Long memberId) {
         String jpql = "select r from MemberSeatReservation r " +
                 "join fetch r.seatReservation " +
                 "join fetch r.seatReservation.seat " +
                 "where r.member.id = :memberId";
-        List<MemberSeatReservation> resultList = em.createQuery(jpql, MemberSeatReservation.class)
+        return em.createQuery(jpql, MemberSeatReservation.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
-        return resultList.stream()
-                .map(r -> MemSeatReservationResponseDto.builder()
-                        .seatReservation(r.getSeatReservation())
-                        .totalPrice(r.getTotalPrice())
-                        .build())
-                .collect(Collectors.toList());
     }
 }
