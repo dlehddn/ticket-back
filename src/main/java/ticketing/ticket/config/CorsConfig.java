@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("http://localhost:8080")
+            .allowedOrigins("http://localhost:8080, https://dongwoo.shop")
             .allowedMethods("*");
     }
 }
