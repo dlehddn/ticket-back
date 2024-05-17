@@ -39,14 +39,15 @@ public class JpaPerfDetailRepository implements PerfDetailRepository {
 
     @Override
     public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
-        String jpql = "select p from PerformanceDetail p join fetch p.performance where " +
+        String jpql = "select p from PerformanceDetail p where " +
                 "(:perfId is null or p.performance.id = :perfId) and " +
                 "(:title is null or p.artist like concat('%', :title, '%')) and " +
                 "(:button is null or " +
                 "(:button = 'next' and p.id > :index) or " +
-                "(:button = 'previous' and p.id < :index)) " +
-                "order by case when :button = 'next' then p.id end asc, " +
-                "case when :button = 'previous' then p.id end desc";
+                "(:button = 'previous' and p.id < :index)) ";
+
+//                "order by case when :button = 'next' then p.id end asc, " +
+//                "case when :button = 'previous' then p.id end desc";
 
         TypedQuery<PerformanceDetail> query = em.createQuery(jpql, PerformanceDetail.class);
         if (perfSearchDto.getPerfId() != null) {
