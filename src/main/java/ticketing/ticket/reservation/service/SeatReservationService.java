@@ -7,6 +7,7 @@ import ticketing.ticket.reservation.domain.dto.SeatReservationResponseDto;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -16,6 +17,13 @@ public class SeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
 
     public List<SeatReservationResponseDto> findAll(Long perfDetailId) {
-        return seatReservationRepository.findAllByPerfDetailId(perfDetailId);
+        return seatReservationRepository.findAllByPerfDetailId(perfDetailId)
+                .stream()
+                .map(s -> SeatReservationResponseDto.builder()
+                        .seatReservationId(s.getSeatReservationId())
+                        .seat(s.getSeat())
+                        .available(s.isAvailable())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

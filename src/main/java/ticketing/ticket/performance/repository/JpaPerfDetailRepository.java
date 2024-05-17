@@ -1,24 +1,31 @@
 package ticketing.ticket.performance.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import ticketing.ticket.performance.domain.dto.PerfDetailResponseDto;
 import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.entity.Performance;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
+import ticketing.ticket.performance.domain.entity.QPerformanceDetail;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ticketing.ticket.performance.domain.entity.QPerformanceDetail.*;
 
 @Repository
 @RequiredArgsConstructor
 public class JpaPerfDetailRepository implements PerfDetailRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public Long save(PerfDetailSaveDto saveDto, Long perfId) {
@@ -38,44 +45,38 @@ public class JpaPerfDetailRepository implements PerfDetailRepository {
     }
 
     @Override
-    public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
-        String jpql = "select p from PerformanceDetail p join fetch p.performance where " +
-                "(:perfId is null or p.performance.id = :perfId) and " +
-                "(:title is null or p.artist like concat('%', :title, '%')) and " +
-                "(:button is null or " +
-                "(:button = 'next' and p.id > :index) or " +
-                "(:button = 'previous' and p.id < :index)) " +
-                "order by case when :button = 'next' then p.id end asc, " +
-                "case when :button = 'previous' then p.id end desc";
-
-        TypedQuery<PerformanceDetail> query = em.createQuery(jpql, PerformanceDetail.class);
-        if (perfSearchDto.getPerfId() != null) {
-            query.setParameter("perfId", perfSearchDto.getPerfId());
-        } else {
-            query.setParameter("perfId", null);
-        }
-        if (perfSearchDto.getIndex() != null) {
-            query.setParameter("index", perfSearchDto.getIndex());
-        } else {
-            query.setParameter("index", null);
-        }
-        if (perfSearchDto.getButton() != null) {
-            query.setParameter("button", perfSearchDto.getButton());
-        } else {
-            query.setParameter("button", null);
-        }
-        if (perfSearchDto.getTitle() != null) {
-            query.setParameter("title", perfSearchDto.getTitle());
-        } else {
-            query.setParameter("title", null);
-        }
-        query.setMaxResults(perfSearchDto.getSize());
-
-        List<PerformanceDetail> resultList = query.getResultList();
-        List<PerfDetailResponseDto> result = resultList.stream()
-                .map(p -> new PerfDetailResponseDto(p))
-                .collect(Collectors.toList());
-        result.sort(Comparator.comparing(PerfDetailResponseDto::getId));
-        return result;
+    public List<PerformanceDetail> findAllByPerf(PerfSearchDto perfSearchDto) {
+        return queryFactory
+                .select(performanceDetail)
+                .from(performanceDetail)
+                .where(equalCategoryId(perfSearchDto.getPerfId()),
+                        likeTitleName(perfSearchDto.getTitle()),
+                        greaterThanIndex(perfSearchDto.getIndex()))
+                .limit(perfSearchDto.getSize())
+                .fetch();
     }
+
+    private BooleanExpression likeTitleName(String title) {
+        if (StringUtils.hasText(title)) {
+            return performanceDetail.artist
+                    .like("%" + title + "%");
+        }
+        return null;
+    }
+
+    private BooleanExpression equalCategoryId(Long perfId) {
+        if (perfId != null) {
+            return performanceDetail.performance
+                    .performanceId
+                    .eq(perfId);
+        }
+        return null;
+    }
+
+    private BooleanExpression greaterThanIndex(Long perfDetailId) {
+        return performanceDetail.performanceDetailId
+                .gt(perfDetailId);
+    }
+
+
 }

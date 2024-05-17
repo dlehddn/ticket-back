@@ -11,7 +11,7 @@ public interface SeatReservationRepository {
 
     void updateAvailable(Long reserveId);
 
-    List<SeatReservationResponseDto> findAllByPerfDetailId(Long perfDetailId);
+    List<SeatReservation> findAllByPerfDetailId(Long perfDetailId);
 
     Optional<SeatReservation> findById(Long id);
 }

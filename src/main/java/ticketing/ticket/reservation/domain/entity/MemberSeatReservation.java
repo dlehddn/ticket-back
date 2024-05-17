@@ -3,11 +3,14 @@ package ticketing.ticket.reservation.domain.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ticketing.ticket.common.entity.BaseEntity;
 import ticketing.ticket.member.domain.entity.Member;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class MemberSeatReservation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,17 +1,23 @@
 package ticketing.ticket.member.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.member.domain.entity.Member;
+import ticketing.ticket.member.domain.entity.QMember;
 
 import java.util.Optional;
+
+import static ticketing.ticket.member.domain.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
 public class JpaMemberRepository implements MemberRepository{
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public void save(Member member) {
@@ -25,10 +31,15 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public Optional<Member> findByUsername(String username) {
-        String jpql = "select m from Member m where m.email = :email";
-        Member member = em.createQuery(jpql, Member.class)
-                .setParameter("email", username)
-                .getSingleResult();
-        return Optional.ofNullable(member);
+        return Optional.ofNullable(queryFactory
+                .select(member)
+                .from(member)
+                .where(equalEmail(username))
+                .fetchFirst());
+    }
+
+    private BooleanExpression equalEmail(String email) {
+        return member.email
+                .eq(email);
     }
 }

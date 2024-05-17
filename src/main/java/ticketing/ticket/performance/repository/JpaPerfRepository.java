@@ -1,18 +1,23 @@
 package ticketing.ticket.performance.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.performance.domain.dto.PerfDto;
 import ticketing.ticket.performance.domain.entity.Performance;
+import ticketing.ticket.performance.domain.entity.QPerformance;
 
 import java.util.List;
+
+import static ticketing.ticket.performance.domain.entity.QPerformance.performance;
 
 @Repository
 @RequiredArgsConstructor
 public class JpaPerfRepository implements PerfRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public void save(PerfDto perfDto) {
@@ -29,9 +34,9 @@ public class JpaPerfRepository implements PerfRepository {
 
     @Override
     public List<Performance> findAll() {
-        String jpql = "select p from Performance p";
-        List<Performance> result = em.createQuery(jpql, Performance.class)
-                .getResultList();
-        return result;
+        return queryFactory
+                .select(performance)
+                .from(performance)
+                .fetch();
     }
 }
