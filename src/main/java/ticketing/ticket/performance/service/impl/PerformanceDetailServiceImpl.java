@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import ticketing.ticket.exeption.PageantionException;
+import ticketing.ticket.exception.PageantionException;
 import ticketing.ticket.performance.domain.dto.IdxInfoDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;

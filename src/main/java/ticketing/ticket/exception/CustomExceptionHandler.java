@@ -1,4 +1,4 @@
-package ticketing.ticket.exeption;
+package ticketing.ticket.exception;
 
 
 import java.util.HashMap;

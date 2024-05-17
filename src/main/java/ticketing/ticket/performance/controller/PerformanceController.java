@@ -7,20 +7,20 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ticketing.ticket.exeption.PageantionException;
+import ticketing.ticket.exception.PageantionException;
 import ticketing.ticket.performance.domain.dto.IdxInfoDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDetailDto;
 import ticketing.ticket.performance.domain.dto.PerformanceDto;
 import ticketing.ticket.performance.service.PerformanceDetailService;
 import ticketing.ticket.performance.service.PerformanceService;
-import ticketing.ticket.performance.service.impl.PerformanceDetailServiceImpl;
+
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,8 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
