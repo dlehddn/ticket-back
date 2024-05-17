@@ -1,5 +1,7 @@
 package ticketing.ticket.reservation.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.reservation.domain.dto.BulkReservationDto;
 import ticketing.ticket.reservation.domain.dto.SeatReservationResponseDto;
+import ticketing.ticket.reservation.domain.entity.QSeatReservation;
 import ticketing.ticket.reservation.domain.entity.SeatReservation;
 
 import java.sql.PreparedStatement;
@@ -17,13 +20,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ticketing.ticket.reservation.domain.entity.QSeatReservation.seatReservation;
+
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class JpaSeatReservationRepository implements SeatReservationRepository{
+public class JpaSeatReservationRepository implements SeatReservationRepository {
 
     private final EntityManager em;
     private final JdbcTemplate jdbcTemplate;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public void bulkInsert(List<BulkReservationDto> reservations) {
@@ -58,23 +64,23 @@ public class JpaSeatReservationRepository implements SeatReservationRepository{
     }
 
     @Override
-    public List<SeatReservationResponseDto> findAllByPerfDetailId(Long perfDetailId) {
-        String jpql = "select s from SeatReservation s join fetch s.seat where s.performanceDetail.id = :perfDetailId";
-        List<SeatReservation> resultList = em.createQuery(jpql, SeatReservation.class)
-                .setParameter("perfDetailId", perfDetailId)
-                .getResultList();
-
-        return resultList.stream()
-                .map(s -> SeatReservationResponseDto.builder()
-                        .seatReservationId(s.getSeatReservationId())
-                        .seat(s.getSeat())
-                        .available(s.isAvailable())
-                        .build())
-                .collect(Collectors.toList());
+    public Optional<SeatReservation> findById(Long id) {
+        return Optional.ofNullable(em.find(SeatReservation.class, id));
     }
 
     @Override
-    public Optional<SeatReservation> findById(Long id) {
-        return Optional.ofNullable(em.find(SeatReservation.class, id));
+    public List<SeatReservation> findAllByPerfDetailId(Long perfDetailId) {
+        return queryFactory
+                .select(seatReservation)
+                .from(seatReservation)
+                .join(seatReservation.seat).fetchJoin()
+                .where(equalPerfDetailId(perfDetailId))
+                .fetch();
+    }
+
+    private BooleanExpression equalPerfDetailId(Long perfDetailId) {
+        return seatReservation.performanceDetail
+                .performanceDetailId
+                .eq(perfDetailId);
     }
 }

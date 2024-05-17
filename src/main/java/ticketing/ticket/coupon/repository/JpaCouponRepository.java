@@ -1,19 +1,24 @@
 package ticketing.ticket.coupon.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ticketing.ticket.coupon.domain.entity.Coupon;
+import ticketing.ticket.coupon.domain.entity.QCoupon;
 
 import java.util.List;
 import java.util.Optional;
+
+import static ticketing.ticket.coupon.domain.entity.QCoupon.coupon;
 
 @Repository
 @RequiredArgsConstructor
 public class JpaCouponRepository implements CouponRepository{
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public void save(Coupon coupon) {
@@ -22,9 +27,10 @@ public class JpaCouponRepository implements CouponRepository{
 
     @Override
     public List<Coupon> findAll() {
-        String jpql = "select c from Coupon c";
-        return em.createQuery(jpql, Coupon.class)
-                .getResultList();
+        return queryFactory
+                .select(coupon)
+                .from(coupon)
+                .fetch();
     }
 
     @Override

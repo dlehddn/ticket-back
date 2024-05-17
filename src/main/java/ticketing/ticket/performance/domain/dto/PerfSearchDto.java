@@ -8,6 +8,6 @@ public class PerfSearchDto {
     private Long perfId;
     private String title;
     private String button;
-    private Integer index;
+    private Long index;
     private Integer size;
 }

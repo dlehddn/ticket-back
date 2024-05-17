@@ -11,7 +11,9 @@ import ticketing.ticket.reservation.domain.dto.BulkReservationDto;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +24,8 @@ public class PerfDetailService {
     private final SeatReservationRepository seatReservationRepository;
 
     public void savePerfDetail(PerfDetailSaveDto dto, Long perfId) {
+        for (int j = 0; j < 10000; j++) {
         Long perfDetailId = perfDetailRepository.save(dto, perfId);
-
         List<BulkReservationDto> reservations = new ArrayList<>();
         for (int i = 1; i <= 70; i++) {
             reservations.add(BulkReservationDto.builder()
@@ -32,6 +34,7 @@ public class PerfDetailService {
                     .build());
         }
         seatReservationRepository.bulkInsert(reservations);
+        }
     }
 
     public PerfDetailResponseDto findById(Long id) {
@@ -39,6 +42,9 @@ public class PerfDetailService {
     }
 
     public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
-        return perfDetailRepository.findAllByPerf(perfSearchDto);
+        return perfDetailRepository.findAllByPerf(perfSearchDto)
+                .stream()
+                .map(p -> new PerfDetailResponseDto(p))
+                .collect(Collectors.toList());
     }
 }
