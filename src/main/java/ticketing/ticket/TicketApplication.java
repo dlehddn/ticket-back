@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class TicketApplication {
 	
-	//
+	//ㅇ
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(TicketApplication.class, args);
 
