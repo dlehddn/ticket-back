@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import ticketing.ticket.coupon.domain.dto.CouponDto;
 import ticketing.ticket.coupon.service.CouponService;
@@ -26,15 +27,16 @@ public class CouponController {
     }
     @Secured("ROLE_ADMIN")
     @PostMapping("/save")
-    public void postMethodName(@RequestBody CouponDto couponDto) {
+    public ResponseEntity<Void> postMethodName(@RequestBody CouponDto couponDto) {
       
         couponService.setCoupon(couponDto);       
         
+        return ResponseEntity.ok().build();
     }
     
     @GetMapping("/all")
-    public List<CouponDto> getAllCouponDtos () {
-        return couponService.getAllCoupons();
+    public ResponseEntity<List<CouponDto>> getAllCouponDtos () {
+        return ResponseEntity.ok(couponService.getAllCoupons());
     }
     
 

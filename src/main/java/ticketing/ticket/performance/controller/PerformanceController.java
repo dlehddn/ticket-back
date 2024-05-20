@@ -15,7 +15,6 @@ import ticketing.ticket.performance.domain.dto.PerformanceDto;
 import ticketing.ticket.performance.service.PerformanceDetailService;
 import ticketing.ticket.performance.service.PerformanceService;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
-
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -49,7 +46,7 @@ public class PerformanceController {
     // 공연 카테고리 저장
     
     @PostMapping("/perform/save")
-    public void setPerformance(@RequestBody PerformanceDto performanceDto){
+    public ResponseEntity<Void> setPerformance(@RequestBody PerformanceDto performanceDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authority = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
@@ -58,26 +55,28 @@ public class PerformanceController {
         System.out.println("Current authority: " + authority);
         
         performanceService.setPerformance(performanceDto);
+        return ResponseEntity.ok().build();
     }
 
 
     // 단일 공연 카테고리 조회
     @GetMapping("/perform/get-performance/{performanceId}")
-    public PerformanceDto getPerformance(@PathVariable Long performanceId){
-        return performanceService.getPerformance(performanceId);
+    public ResponseEntity<PerformanceDto> getPerformance(@PathVariable Long performanceId){
+        return ResponseEntity.ok(performanceService.getPerformance(performanceId));
     }
     // 모든 공연 카테고리 조회
     @GetMapping("/perform/all")
-    public List<PerformanceDto> getAllPerformance() {
+    public ResponseEntity<List<PerformanceDto>> getAllPerformance() {
        List<PerformanceDto> dtoList = performanceService.getAllPerformance();
        
-        return dtoList;
+        return ResponseEntity.ok(dtoList);
 
     }
     // 공연 카테고리 삭제
     @DeleteMapping("/delete-performance/{performanceId}")
-    public void deletePerformance(@PathVariable Long performanceId){
+    public ResponseEntity<Void> deletePerformance(@PathVariable Long performanceId){
         performanceService.deletePerformance(performanceId);
+        return ResponseEntity.ok().build();
     }
 
     ///////////////////////////////////공연 디테일 /////////////////////////////////////
@@ -86,44 +85,46 @@ public class PerformanceController {
     // 공연 디테일 저장
     @Secured("ROLE_ADMIN")
     @PostMapping("/perform-detail/save")
-    public void setPerformanceDetail(@RequestBody PerformanceDetailDto performanceDetailDto){
+    public ResponseEntity<Void> setPerformanceDetail(@RequestBody PerformanceDetailDto performanceDetailDto){
         performanceDetailService.setPerformanceDetail(performanceDetailDto);
+        return ResponseEntity.ok().build();
     }
 
     // 공연 디테일 단건조회
     @GetMapping("/perform-detail/get-performancedetail/{performanceDetailId}")
-    public PerformanceDetailDto gPerformanceDetail(@PathVariable Long performanceDetailId){
-        return performanceDetailService.getPerformanceDetail(performanceDetailId);
+    public ResponseEntity<PerformanceDetailDto> gPerformanceDetail(@PathVariable Long performanceDetailId){
+        return ResponseEntity.ok(performanceDetailService.getPerformanceDetail(performanceDetailId));
     }
     
     // 공연 디테일 모두 조회
     @GetMapping("/perform-detail/get-allperformancedetail")
-    public List<PerformanceDetailDto> getAllPerformanceDetail(){
-        return performanceDetailService.getAllPerformanceDetail();
+    public ResponseEntity<List<PerformanceDetailDto>> getAllPerformanceDetail(){
+        return ResponseEntity.ok(performanceDetailService.getAllPerformanceDetail());
     }
     // 공연 카테고리로 디테일 조회
     @PostMapping("/perform-detail/all")
-    public List<PerformanceDetailDto> getPerformanceDetailByPerformanceId (@RequestBody PerfSearchDto perfSearchDto) throws PageantionException {
-        return performanceDetailService.getPerformanceDetailByPerformanceId(perfSearchDto);
+    public ResponseEntity<List<PerformanceDetailDto>> getPerformanceDetailByPerformanceId (@RequestBody PerfSearchDto perfSearchDto) throws PageantionException {
+        return ResponseEntity.ok(performanceDetailService.getPerformanceDetailByPerformanceId(perfSearchDto));
     }
 
     
     // 공연 디테일 삭제
     @DeleteMapping("/delete-performancedetailId/{performanceDetailId}")
-    public void deletePerformanceDetail(@PathVariable Long PerformanceDetailId){
+    public ResponseEntity<Void> deletePerformanceDetail(@PathVariable Long PerformanceDetailId){
         performanceDetailService.deletePerformanceDetail(PerformanceDetailId);
+        return ResponseEntity.ok().build();
     }
     // 
     @GetMapping("/perform-detail/get-idxinfo/{performanceId}")
-    public IdxInfoDto getIdxInfo(@PathVariable Long performanceId){
+    public ResponseEntity<IdxInfoDto> getIdxInfo(@PathVariable Long performanceId){
 
       
-        return performanceDetailService.getIdxInfoByPerformanceId(performanceId);
+        return ResponseEntity.ok(performanceDetailService.getIdxInfoByPerformanceId(performanceId));
        
     }
     @GetMapping("/perform-detail/get-idxinfo/null")
-    public IdxInfoDto getIdxInfo(){
-        return performanceDetailService.getIdxInfo();
+    public ResponseEntity<IdxInfoDto> getIdxInfo(){
+        return ResponseEntity.ok(performanceDetailService.getIdxInfo());
     }
 
     

@@ -24,8 +24,9 @@ public class ReservationController {
 
 
     @PostMapping("/save")
-    public void setMemberSeatReservaion(@RequestBody ReservationRequestDto requestDto){
+    public ResponseEntity<Void> setMemberSeatReservaion(@RequestBody ReservationRequestDto requestDto){
         reservationService.setReservation(requestDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/all/{perfDetailId}")
