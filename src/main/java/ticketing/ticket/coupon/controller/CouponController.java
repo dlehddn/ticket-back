@@ -27,7 +27,7 @@ public class CouponController {
     }
     @Secured("ROLE_ADMIN")
     @PostMapping("/save")
-    public ResponseEntity<Void> postMethodName(@RequestBody CouponDto couponDto) {
+    public ResponseEntity<Void> setCoupon(@RequestBody CouponDto couponDto) {
       
         couponService.setCoupon(couponDto);       
         

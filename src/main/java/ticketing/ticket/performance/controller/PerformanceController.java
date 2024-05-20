@@ -92,7 +92,7 @@ public class PerformanceController {
 
     // 공연 디테일 단건조회
     @GetMapping("/perform-detail/get-performancedetail/{performanceDetailId}")
-    public ResponseEntity<PerformanceDetailDto> gPerformanceDetail(@PathVariable Long performanceDetailId){
+    public ResponseEntity<PerformanceDetailDto> getPerformanceDetail(@PathVariable Long performanceDetailId){
         return ResponseEntity.ok(performanceDetailService.getPerformanceDetail(performanceDetailId));
     }
     
