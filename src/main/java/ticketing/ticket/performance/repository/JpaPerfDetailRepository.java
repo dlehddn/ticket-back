@@ -3,7 +3,6 @@ package ticketing.ticket.performance.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -12,11 +11,9 @@ import ticketing.ticket.performance.domain.dto.PerfDetailSaveDto;
 import ticketing.ticket.performance.domain.dto.PerfSearchDto;
 import ticketing.ticket.performance.domain.entity.Performance;
 import ticketing.ticket.performance.domain.entity.PerformanceDetail;
-import ticketing.ticket.performance.domain.entity.QPerformanceDetail;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 import static ticketing.ticket.performance.domain.entity.QPerformanceDetail.*;
 
@@ -49,6 +46,7 @@ public class JpaPerfDetailRepository implements PerfDetailRepository {
         return queryFactory
                 .select(performanceDetail)
                 .from(performanceDetail)
+                .leftJoin(performanceDetail.performance).fetchJoin()
                 .where(equalCategoryId(perfSearchDto.getPerfId()),
                         likeTitleName(perfSearchDto.getTitle()),
                         greaterThanIndex(perfSearchDto.getIndex()))

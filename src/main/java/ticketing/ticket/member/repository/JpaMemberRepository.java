@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ticketing.ticket.common.aop.annotation.TimeTrace;
 import ticketing.ticket.member.domain.entity.Member;
 import ticketing.ticket.member.domain.entity.QMember;
 
@@ -30,12 +31,14 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     @Override
+    @TimeTrace
     public Optional<Member> findByUsername(String username) {
         return Optional.ofNullable(queryFactory
                 .select(member)
                 .from(member)
+                .leftJoin(member.roles).fetchJoin()
                 .where(equalEmail(username))
-                .fetchFirst());
+                .fetchOne());
     }
 
     private BooleanExpression equalEmail(String email) {

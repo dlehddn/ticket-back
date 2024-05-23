@@ -24,17 +24,24 @@ public class PerfDetailService {
     private final SeatReservationRepository seatReservationRepository;
 
     public void savePerfDetail(PerfDetailSaveDto dto, Long perfId) {
-        for (int j = 0; j < 10000; j++) {
-        Long perfDetailId = perfDetailRepository.save(dto, perfId);
-        List<BulkReservationDto> reservations = new ArrayList<>();
-        for (int i = 1; i <= 70; i++) {
-            reservations.add(BulkReservationDto.builder()
-                    .performanceDetailId(perfDetailId)
-                    .seatId((long) i)
-                    .build());
+        for (int i = 0; i < 10000; i++) {
+            perfDetailRepository.save(dto, 1L);
+            perfDetailRepository.save(dto, 2L);
+            perfDetailRepository.save(dto, 3L);
+            perfDetailRepository.save(dto, 4L);
+            perfDetailRepository.save(dto, 5L);
+            perfDetailRepository.save(dto, 6L);
+            perfDetailRepository.save(dto, 7L);
         }
-        seatReservationRepository.bulkInsert(reservations);
-        }
+
+//        List<BulkReservationDto> reservations = new ArrayList<>();
+//        for (int i = 1; i <= 70; i++) {
+//            reservations.add(BulkReservationDto.builder()
+//                    .performanceDetailId(perfDetailId)
+//                    .seatId((long) i)
+//                    .build());
+//        }
+//        seatReservationRepository.bulkInsert(reservations);
     }
 
     public PerfDetailResponseDto findById(Long id) {

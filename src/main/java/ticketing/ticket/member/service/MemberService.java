@@ -1,6 +1,7 @@
 package ticketing.ticket.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ticketing.ticket.common.aop.annotation.TimeTrace;
 import ticketing.ticket.common.jwt.JwtTokenProvider;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 import ticketing.ticket.member.domain.dto.LogInMemberDto;
@@ -21,6 +23,7 @@ import ticketing.ticket.member.repository.MemberRepository;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MemberService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -34,11 +37,13 @@ public class MemberService {
                 .name(signUpDto.getName())
                 .email(signUpDto.getEmail())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
+//                .password(signUpDto.getPassword())
                 .build();
         member.getRoles().add("USER");
         memberRepository.save(member);
     }
 
+    @TimeTrace
     public ResponseEntity<MemberResponse> signIn(String username, String password) {
 
         LogInMemberDto userDetails = (LogInMemberDto) customUserDetailsService.loadUserByUsername(username);

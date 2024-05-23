@@ -3,6 +3,7 @@ package ticketing.ticket.performance.domain.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 import ticketing.ticket.common.entity.BaseEntity;
 
 @Entity
