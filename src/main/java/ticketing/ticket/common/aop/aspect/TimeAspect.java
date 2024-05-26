@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class TimeAspect {
-
     @Around("@annotation(ticketing.ticket.common.aop.annotation.TimeTrace)")
     public Object doTimeTrace(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();

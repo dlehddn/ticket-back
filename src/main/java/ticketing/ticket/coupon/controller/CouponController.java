@@ -11,18 +11,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/coupon")
+@RequestMapping("/coupons")
 public class CouponController {
 
     private final CouponService couponService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Void> createCoupon(@RequestBody final CouponSaveDto couponSaveDto) {
         couponService.createCoupon(couponSaveDto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<CouponResponseDto>> getAllCoupon() {
         List<CouponResponseDto> allCoupon = couponService.getAllCoupon();
         return ResponseEntity.ok(allCoupon);

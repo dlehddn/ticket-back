@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/perform")
+@RequestMapping("/performs")
 public class PerfController {
 
     private final PerfService perfService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Void> creatPerformance(@RequestBody final PerfDto perfDto) {
         perfService.savePerformance(perfDto);
         return ResponseEntity.ok().build();
@@ -28,7 +28,7 @@ public class PerfController {
 //        return perfService.findById(performId);
 //    }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Performance>> getAll() {
         return ResponseEntity.ok(perfService.findAll());
     }

@@ -10,6 +10,7 @@ import ticketing.ticket.common.error.ErrorCode;
 import ticketing.ticket.common.error.ErrorResponse;
 import ticketing.ticket.common.error.SQLErrorCode;
 import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
+import ticketing.ticket.reservation.exception.AlreadyReservationException;
 import ticketing.ticket.reservation.exception.InvalidPriceException;
 
 import java.sql.SQLException;
@@ -21,6 +22,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ResponseEntity<ErrorResponse> handleOptimisticLockException(ObjectOptimisticLockingFailureException e) {
         ErrorCode errorCode = ConcurrentErrorCode.ALREADY_RESERVE_SEAT;
+        return makeResponseEntity(errorCode);
+    }
+
+    @ExceptionHandler(AlreadyReservationException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyReservationException(AlreadyReservationException e) {
+        ErrorCode errorCode = e.getErrorCode();
         return makeResponseEntity(errorCode);
     }
 
@@ -36,7 +43,7 @@ public class GlobalExceptionHandler {
         String sqlState = e.getSQLState();
         ErrorCode error;
 
-        // 동시성 이슈 고려한 쿠폰 수량 부족 예외
+//         동시성 이슈 고려한 쿠폰 수량 부족 예외
         if (errorCode == 3819 && sqlState.equals("HY000")) {
             error = SQLErrorCode.INSUFFICIENT_COUPON;
             return makeResponseEntity(error);

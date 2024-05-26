@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/perform-detail")
+@RequestMapping("/perform-details")
 public class PerfDetailController {
 
     private final PerfDetailService perfDetailService;
 
-    @PostMapping("/save/{perfId}")
+    @PostMapping("/{perfId}")
     public ResponseEntity<Void> creatPerfDetail(@RequestBody final PerfDetailSaveDto saveDto, @PathVariable Long perfId) {
         perfDetailService.savePerfDetail(saveDto, perfId);
         return ResponseEntity.ok().build();
@@ -28,9 +28,8 @@ public class PerfDetailController {
         return ResponseEntity.ok(perfDetailService.findById(perfDetailId));
     }
 
-    @PostMapping("/all")
+    @PostMapping
     public ResponseEntity<List<PerfDetailResponseDto>> getAllDetails(@RequestBody final PerfSearchDto perfSearchDto) {
         return ResponseEntity.ok(perfDetailService.findAllByPerf(perfSearchDto));
     }
-
 }

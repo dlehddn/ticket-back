@@ -11,21 +11,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member-coupon")
+@RequestMapping("/member-coupons")
 public class MemberCouponController {
 
     private final MemberCouponService memberCouponService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Void> saveCoupon(@RequestBody final CouponSaveDto saveDto) {
         memberCouponService.saveCoupon(saveDto.getMemberId(), saveDto.getCouponId());
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all/{memberId}")
+    @GetMapping("/{memberId}")
     public ResponseEntity<List<MyCouponsDto>> getMyAllCoupons(@PathVariable Long memberId) {
         return ResponseEntity.ok(memberCouponService.getMyCoupons(memberId));
     }
-
 
 }

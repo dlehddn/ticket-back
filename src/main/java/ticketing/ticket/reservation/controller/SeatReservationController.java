@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reservation")
+@RequestMapping("/seat-reservations")
 public class SeatReservationController {
 
     private final SeatReservationService seatReservationService;
 
-    @GetMapping("/available/{perfDetailId}")
+    @GetMapping("/{perfDetailId}")
     public ResponseEntity<List<SeatReservationResponseDto>> getSeatAvailable(@PathVariable Long perfDetailId) {
         List<SeatReservationResponseDto> reservations = seatReservationService.findAll(perfDetailId);
         return ResponseEntity.ok(reservations);

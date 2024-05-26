@@ -9,12 +9,12 @@ import ticketing.ticket.seat.service.SeatService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/seat")
+@RequestMapping("/seats")
 public class SeatController {
 
     private final SeatService seatService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Void> createSeat(@RequestBody final SeatSaveRequest dto) {
         seatService.bulkSeatSave(dto.getRow(), dto.getCol());
         return ResponseEntity.ok().build();

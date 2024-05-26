@@ -11,12 +11,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reservation")
+@RequestMapping("/mem-reservations")
 public class MemSeatReservationController {
 
     private final MemSeatReservationService memSeatReservationService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Void> createTicket(@RequestBody final MemSeatReservationDto reservationDto) {
         memSeatReservationService.reserveTicket(reservationDto);
         return ResponseEntity.ok().build();

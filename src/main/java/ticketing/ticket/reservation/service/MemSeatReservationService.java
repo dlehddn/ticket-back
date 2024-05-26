@@ -1,14 +1,18 @@
 package ticketing.ticket.reservation.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ticketing.ticket.common.aop.annotation.TimeTrace;
 import ticketing.ticket.common.error.PriceErrorCode;
+import ticketing.ticket.common.error.SQLErrorCode;
 import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 import ticketing.ticket.membercoupon.repository.MemberCouponRepository;
 import ticketing.ticket.reservation.domain.dto.MemSeatReservationDto;
 import ticketing.ticket.reservation.domain.dto.MemSeatReservationResponseDto;
 import ticketing.ticket.reservation.domain.entity.SeatReservation;
+import ticketing.ticket.reservation.exception.AlreadyReservationException;
 import ticketing.ticket.reservation.exception.InvalidPriceException;
 import ticketing.ticket.reservation.repository.MemSeatReservationRepository;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
@@ -25,13 +29,19 @@ public class MemSeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
     private final MemberCouponRepository memberCouponRepository;
 
+    @TimeTrace
     public void reserveTicket(MemSeatReservationDto reservationDto) {
         double realTotalPrice = calculateTotalPrice(reservationDto);
         if (!priceIsSame(realTotalPrice, reservationDto.getTotalPrice())) {
             throw new InvalidPriceException(PriceErrorCode.INVALID_PRICE);
         }
         seatReservationRepository.updateAvailable(reservationDto.getSeatReservationId());
-        memSeatReservationRepository.save(reservationDto);
+
+        try {
+            memSeatReservationRepository.save(reservationDto);
+        } catch (DataIntegrityViolationException e) {
+            throw new AlreadyReservationException(e, SQLErrorCode.RESERVED_SEAT);
+        }
     }
 
     public List<MemSeatReservationResponseDto> getMyReservations(Long memberId) {
