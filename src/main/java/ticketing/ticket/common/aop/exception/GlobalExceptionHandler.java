@@ -5,10 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ticketing.ticket.common.error.ConcurrentErrorCode;
-import ticketing.ticket.common.error.ErrorCode;
-import ticketing.ticket.common.error.ErrorResponse;
-import ticketing.ticket.common.error.SQLErrorCode;
+import ticketing.ticket.common.error.*;
 import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
 import ticketing.ticket.reservation.exception.AlreadyReservationException;
 import ticketing.ticket.reservation.exception.InvalidPriceException;
@@ -19,21 +16,14 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        return makeResponseEntity(e.getErrorCode());
+    }
+
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ResponseEntity<ErrorResponse> handleOptimisticLockException(ObjectOptimisticLockingFailureException e) {
         ErrorCode errorCode = ConcurrentErrorCode.ALREADY_RESERVE_SEAT;
-        return makeResponseEntity(errorCode);
-    }
-
-    @ExceptionHandler(AlreadyReservationException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyReservationException(AlreadyReservationException e) {
-        ErrorCode errorCode = e.getErrorCode();
-        return makeResponseEntity(errorCode);
-    }
-
-    @ExceptionHandler(DuplicatedCouponException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicatedCouponException(DuplicatedCouponException e) {
-        ErrorCode errorCode = e.getErrorCode();
         return makeResponseEntity(errorCode);
     }
 
@@ -43,19 +33,13 @@ public class GlobalExceptionHandler {
         String sqlState = e.getSQLState();
         ErrorCode error;
 
-//         동시성 이슈 고려한 쿠폰 수량 부족 예외
+        // 체크 제약 조건 위배
         if (errorCode == 3819 && sqlState.equals("HY000")) {
             error = SQLErrorCode.INSUFFICIENT_COUPON;
             return makeResponseEntity(error);
         } else {
             throw e;
         }
-    }
-
-    @ExceptionHandler(InvalidPriceException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidPriceException(InvalidPriceException e) {
-        ErrorCode errorCode = e.getErrorCode();
-        return makeResponseEntity(errorCode);
     }
 
     private ResponseEntity<ErrorResponse> makeResponseEntity(ErrorCode errorCode) {

@@ -29,14 +29,12 @@ public class MemSeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
     private final MemberCouponRepository memberCouponRepository;
 
-    @TimeTrace
     public void reserveTicket(MemSeatReservationDto reservationDto) {
         double realTotalPrice = calculateTotalPrice(reservationDto);
         if (!priceIsSame(realTotalPrice, reservationDto.getTotalPrice())) {
             throw new InvalidPriceException(PriceErrorCode.INVALID_PRICE);
         }
         seatReservationRepository.updateAvailable(reservationDto.getSeatReservationId());
-
         try {
             memSeatReservationRepository.save(reservationDto);
         } catch (DataIntegrityViolationException e) {

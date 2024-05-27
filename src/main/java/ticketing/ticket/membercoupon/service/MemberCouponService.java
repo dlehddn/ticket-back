@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional()
+@Transactional
 public class MemberCouponService {
 
     private final MemberRepository memberRepository;
@@ -36,7 +36,9 @@ public class MemberCouponService {
          * -> check 제약 조건은 해당 테이블에서 유일하므로 직접 errorCode + sqlState 로 catch
          * SQL Error: 3819, SQLState: HY000
          */
+        // 2번 추가
         couponRepository.update(couponId);
+
 
         // NoSuchElementException 가능
         Member member = memberRepository.findById(memberId)
