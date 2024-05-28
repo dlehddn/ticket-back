@@ -13,6 +13,7 @@ import ticketing.ticket.member.repository.MemberRepository;
 import ticketing.ticket.membercoupon.domain.dto.MyCouponsDto;
 import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
+import ticketing.ticket.membercoupon.exception.InsufficientCouponException;
 import ticketing.ticket.membercoupon.repository.MemberCouponRepository;
 
 import java.util.List;
@@ -29,16 +30,18 @@ public class MemberCouponService {
 
     public void saveCoupon(Long memberId, Long couponId) {
         /**
-         * check 제약조건 예외 가능
-         * -> 트랜잭션이 커밋될 때 발생하므로 controller 에서 예외처리를 해야함.
-         * -> 예외 누수 문제
-         * -> ControllerAdvice 에서 전역적으로 예외를 관리
-         * -> check 제약 조건은 해당 테이블에서 유일하므로 직접 errorCode + sqlState 로 catch
-         * SQL Error: 3819, SQLState: HY000
+         * 쿠폰 수량 예외 더블 체크
+         * 1. 쿠폰 수량 확인 후, 0 이하라면 커스텀 예외 던짐
+         * 2. 발생하지 않을 상황이겠지만, 중요한 비지니스 로직이므로 DB 체크 제약 조건을 추가
+         *     -> JpaSystemException root cause SQLException 가능
+         *     -> 체크 제약조건을 유일하므로 ControllerAdvice 에서 직접 처리
+         *     -> SQL Error: 3819, SQLState: HY000
          */
-        // 2번 추가
+        Coupon requestedCoupon = couponRepository.findById(couponId).orElseThrow();
+        if (requestedCoupon.getQuantity() <= 0) {
+            throw new InsufficientCouponException(SQLErrorCode.INSUFFICIENT_COUPON);
+        }
         couponRepository.update(couponId);
-
 
         // NoSuchElementException 가능
         Member member = memberRepository.findById(memberId)

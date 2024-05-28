@@ -3,6 +3,7 @@ package ticketing.ticket.membercoupon.repository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ticketing.ticket.member.domain.entity.Member;
 import ticketing.ticket.membercoupon.domain.entity.MemberCoupon;
 

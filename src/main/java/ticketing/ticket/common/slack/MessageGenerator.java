@@ -77,7 +77,6 @@ public class MessageGenerator {
 
     private String getBody(ContentCachingRequestWrapper request) {
         String body = new String(request.getContentAsByteArray());
-        log.info("body={}", body);
         if (body.isEmpty()) {
             body = MessageFormat.EMPTY_BODY_MESSAGE.getMessage();
         }
