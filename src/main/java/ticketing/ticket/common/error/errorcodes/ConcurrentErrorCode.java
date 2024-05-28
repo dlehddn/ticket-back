@@ -1,8 +1,9 @@
-package ticketing.ticket.common.error;
+package ticketing.ticket.common.error.errorcodes;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import ticketing.ticket.common.error.errorcodes.ErrorCode;
 
 @Getter
 @RequiredArgsConstructor

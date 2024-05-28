@@ -5,7 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ticketing.ticket.common.error.SQLErrorCode;
+import ticketing.ticket.common.error.errorcodes.SQLErrorCode;
 import ticketing.ticket.coupon.domain.entity.Coupon;
 import ticketing.ticket.coupon.repository.CouponRepository;
 import ticketing.ticket.member.domain.entity.Member;

@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ticketing.ticket.common.aop.annotation.SlackAlarm;
 import ticketing.ticket.common.error.*;
-import ticketing.ticket.membercoupon.exception.DuplicatedCouponException;
-import ticketing.ticket.reservation.exception.AlreadyReservationException;
-import ticketing.ticket.reservation.exception.InvalidPriceException;
+import ticketing.ticket.common.error.errorcodes.ConcurrentErrorCode;
+import ticketing.ticket.common.error.errorcodes.ErrorCode;
+import ticketing.ticket.common.error.errorcodes.SQLErrorCode;
+import ticketing.ticket.common.slack.enums.SlackAlarmLevel;
 
 import java.sql.SQLException;
 
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @SlackAlarm(level = SlackAlarmLevel.ERROR)
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
         return makeResponseEntity(e.getErrorCode());

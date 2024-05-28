@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import ticketing.ticket.common.error.errorcodes.JwtErrorCode;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 
 import java.security.Key;
@@ -43,5 +45,27 @@ public class JwtTokenProvider {
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .build();
+    }
+
+    public String getToken(ContentCachingRequestWrapper requestWrapper) {
+        String authorization = requestWrapper.getHeader("Authorization");
+
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7);
+        }
+        return null;
+    }
+
+    public String extractSubject(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new TokenNotValidException(e, JwtErrorCode.TOKEN_NOT_VALID);
+        }
     }
 }

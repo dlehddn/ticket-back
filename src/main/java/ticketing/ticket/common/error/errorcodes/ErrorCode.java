@@ -1,4 +1,4 @@
-package ticketing.ticket.common.error;
+package ticketing.ticket.common.error.errorcodes;
 
 import org.springframework.http.HttpStatus;
 

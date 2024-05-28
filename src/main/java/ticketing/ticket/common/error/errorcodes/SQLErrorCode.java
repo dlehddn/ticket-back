@@ -1,12 +1,13 @@
-package ticketing.ticket.common.error;
+package ticketing.ticket.common.error.errorcodes;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import ticketing.ticket.common.error.errorcodes.ErrorCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum SQLErrorCode implements ErrorCode{
+public enum SQLErrorCode implements ErrorCode {
     INSUFFICIENT_COUPON(HttpStatus.FORBIDDEN, "쿠폰이 소진되었습니다."),
     DUPLICATED_COUPON(HttpStatus.FORBIDDEN, "이미 발급된 쿠폰입니다."),
     RESERVED_SEAT(HttpStatus.FORBIDDEN, "이미 예약된 좌석입니다.");

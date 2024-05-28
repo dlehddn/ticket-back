@@ -46,6 +46,8 @@ dependencies {
     // java.lang.NoClassDefFoundError:javax/persistence/Entity 에러 방지
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    // webclient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 }
 

@@ -1,6 +1,7 @@
 package ticketing.ticket.common.error;
 
 import lombok.Getter;
+import ticketing.ticket.common.error.errorcodes.ErrorCode;
 
 @Getter
 public class BusinessException extends RuntimeException {

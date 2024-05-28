@@ -1,9 +1,8 @@
 package ticketing.ticket.reservation.exception;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import ticketing.ticket.common.error.BusinessException;
-import ticketing.ticket.common.error.ErrorCode;
+import ticketing.ticket.common.error.errorcodes.ErrorCode;
 
 @Getter
 public class InvalidPriceException extends BusinessException {
