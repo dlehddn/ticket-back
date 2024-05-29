@@ -31,6 +31,7 @@ public class SecurityConfig {
                         config.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowedHeaders(Collections.singletonList("*"));
+                        config.setExposedHeaders(Collections.singletonList("Authorization"));
                         config.setMaxAge(3600L); //1시간
                         return config;
                     }
