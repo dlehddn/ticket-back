@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
         return makeResponseEntity(errorCode);
     }
 
+    @SlackAlarm(level = SlackAlarmLevel.WARN)
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<ErrorResponse> handleSQLException(SQLException e) throws SQLException {
         int errorCode = e.getErrorCode();
