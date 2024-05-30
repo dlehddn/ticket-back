@@ -34,37 +34,22 @@ public class JwtTokenProvider {
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
-    @Value("${jwt.private-key-path}")
-    private String privateKeyPath;
+    @Value("${jwt.private-key}")
+    private String privateKeyStr;
 
-    @Value("${jwt.public-key-path}")
-    private String publicKeyPath;
+    @Value("${jwt.public-key}")
+    private String publicKeyStr;
 
     @PostConstruct
     public void init() throws Exception {
         // private key 생성
-        byte[] keyBytes = Files.readAllBytes(Paths.get(privateKeyPath));
-        String keyString = new String(keyBytes, Charset.defaultCharset());
-
-        keyString = keyString
-                .replaceAll("-----BEGIN PRIVATE KEY-----", "")
-                .replaceAll("-----END PRIVATE KEY-----", "")
-                .replaceAll("\\s+", ""); // Remove all whitespace characters
-
-        byte[] decodedKey = Base64.getDecoder().decode(keyString);
+        byte[] decodedKey = Base64.getDecoder().decode(privateKeyStr);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodedKey);
         KeyFactory kf = KeyFactory.getInstance("RSA");
         this.privateKey = kf.generatePrivate(spec);
 
         // public key 생성
-        byte[] publicKeyBytes = Files.readAllBytes(Paths.get(publicKeyPath));
-        String publicKeyString = new String(publicKeyBytes, StandardCharsets.UTF_8);
-
-        publicKeyString = publicKeyString
-                .replaceAll("-----BEGIN PUBLIC KEY-----", "")
-                .replaceAll("-----END PUBLIC KEY-----", "")
-                .replaceAll("\\s+", ""); // Remove all whitespace characters
-        byte[] decodedPublicKeyBytes = Base64.getDecoder().decode(publicKeyString);
+        byte[] decodedPublicKeyBytes = Base64.getDecoder().decode(publicKeyStr);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedPublicKeyBytes);
         this.publicKey = keyFactory.generatePublic(keySpec);
