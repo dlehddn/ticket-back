@@ -3,6 +3,7 @@ package ticketing.ticket.common.slack;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MessageSender {
 
     @Value("${slack.webhook.uri}")
@@ -26,7 +28,10 @@ public class MessageSender {
                 .bodyValue(toJson(message))
                 .retrieve()
                 .bodyToMono(String.class)
-                .subscribe();
+                .subscribe(
+                        res -> log.info("slack response = {}", res),
+                        err -> log.error("error sending message to slack", err)
+                );
     }
 
     private String toJson(String message) {

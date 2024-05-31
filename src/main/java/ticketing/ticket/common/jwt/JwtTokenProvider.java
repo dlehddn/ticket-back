@@ -4,12 +4,14 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import ticketing.ticket.common.aop.annotation.TimeTrace;
 import ticketing.ticket.common.error.errorcodes.JwtErrorCode;
 import ticketing.ticket.member.domain.dto.JwtTokenDto;
 
@@ -17,10 +19,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -30,18 +30,11 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class JwtTokenProvider {
+    private final PrivateKey privateKey;
+    private final PublicKey publicKey;
 
-    private PrivateKey privateKey;
-    private PublicKey publicKey;
-
-    @Value("${jwt.private-key}")
-    private String privateKeyStr;
-
-    @Value("${jwt.public-key}")
-    private String publicKeyStr;
-
-    @PostConstruct
-    public void init() throws Exception {
+    public JwtTokenProvider(@Value("${jwt.private-key}") String privateKeyStr,
+                            @Value("${jwt.public-key}") String publicKeyStr) throws Exception {
         // private key 생성
         byte[] decodedKey = Base64.getDecoder().decode(privateKeyStr);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodedKey);
@@ -54,7 +47,6 @@ public class JwtTokenProvider {
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedPublicKeyBytes);
         this.publicKey = keyFactory.generatePublic(keySpec);
     }
-
 
     public JwtTokenDto generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
