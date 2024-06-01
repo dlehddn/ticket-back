@@ -36,7 +36,7 @@ public class MessageSender {
     }
 
     private String toJson(String message) {
-        try {
+        try {                                                     
             Map<String, String> values = new HashMap<>();
             values.put("text", message);
             return objectMapper.writeValueAsString(values);

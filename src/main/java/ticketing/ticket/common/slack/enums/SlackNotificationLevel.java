@@ -1,6 +1,6 @@
 package ticketing.ticket.common.slack.enums;
 
-public enum SlackAlarmLevel {
+public enum SlackNotificationLevel {
     TRACE,
     DEBUG,
     INFO,

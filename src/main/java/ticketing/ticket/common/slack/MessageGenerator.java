@@ -8,7 +8,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import ticketing.ticket.common.jwt.TokenNotValidException;
 import ticketing.ticket.common.jwt.JwtTokenProvider;
 import ticketing.ticket.common.slack.enums.MessageFormat;
-import ticketing.ticket.common.slack.enums.SlackAlarmLevel;
+import ticketing.ticket.common.slack.enums.SlackNotificationLevel;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -25,7 +25,7 @@ public class MessageGenerator {
 
     public String generate(ContentCachingRequestWrapper request,
                            Exception exception,
-                           SlackAlarmLevel level) {
+                           SlackNotificationLevel level) {
         try {
             String token = jwtTokenProvider.getToken(request);
             String profile = getProfile();
@@ -83,7 +83,7 @@ public class MessageGenerator {
         return body;
     }
 
-    private String extractExceptionMessage(Exception e, SlackAlarmLevel level) {
+    private String extractExceptionMessage(Exception e, SlackNotificationLevel level) {
         StackTraceElement stackTrace = e.getStackTrace()[0];
         String className = stackTrace.getClassName();
         int lineNumber = stackTrace.getLineNumber();

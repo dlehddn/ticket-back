@@ -7,12 +7,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import ticketing.ticket.common.aop.annotation.SlackAlarm;
+import ticketing.ticket.common.aop.annotation.SlackNotification;
 import ticketing.ticket.common.slack.MessageGenerator;
 import ticketing.ticket.common.slack.MessageSender;
 import ticketing.ticket.common.slack.RequestStorage;
 import ticketing.ticket.common.slack.enums.MessageFormat;
-import ticketing.ticket.common.slack.enums.SlackAlarmLevel;
+import ticketing.ticket.common.slack.enums.SlackNotificationLevel;
 
 @Aspect
 @Component
@@ -24,7 +24,7 @@ public class SlackAspect {
     private final MessageGenerator messageGenerator;
     private final MessageSender messageSender;
 
-    @Before("@annotation(ticketing.ticket.common.aop.annotation.SlackAlarm)")
+    @Before("@annotation(ticketing.ticket.common.aop.annotation.SlackNotification)")
     public void sendExceptionMessage(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (!validateHasOneArgument(args)) {
@@ -35,11 +35,11 @@ public class SlackAspect {
             return;
         }
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        SlackAlarm annotation = signature.getMethod().getAnnotation(SlackAlarm.class);
-        SlackAlarmLevel level = annotation.level();
+        SlackNotificationLevel level = signature.getMethod()
+                .getAnnotation(SlackNotification.class)
+                .level();
 
-        String message = messageGenerator
-            .generate(requestStorage.get(), (Exception) args[0], level);
+        String message = messageGenerator.generate(requestStorage.get(), (Exception) args[0], level);
         messageSender.send(message);
     }
 

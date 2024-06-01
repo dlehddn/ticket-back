@@ -5,32 +5,50 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ticketing.ticket.common.aop.annotation.SlackAlarm;
+import ticketing.ticket.common.aop.annotation.SlackNotification;
 import ticketing.ticket.common.error.*;
+import ticketing.ticket.common.error.errorcodes.CommonErrorCode;
 import ticketing.ticket.common.error.errorcodes.ConcurrentErrorCode;
 import ticketing.ticket.common.error.errorcodes.ErrorCode;
 import ticketing.ticket.common.error.errorcodes.SQLErrorCode;
-import ticketing.ticket.common.slack.enums.SlackAlarmLevel;
+import ticketing.ticket.common.slack.enums.SlackNotificationLevel;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @SlackAlarm(level = SlackAlarmLevel.ERROR)
+    @SlackNotification(level = SlackNotificationLevel.WARN)
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        log.warn(e.getErrorCode().getMessage());
         return makeResponseEntity(e.getErrorCode());
+    }
+
+    @SlackNotification(level = SlackNotificationLevel.ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleCommonException (Exception e) {
+        if (e.getMessage() != null) {
+            log.error(e.getMessage());
+        } else {
+            log.error(e.getClass().toString());
+            log.error(Arrays.stream(e.getStackTrace())
+                    .map(st -> st.toString())
+                    .collect(Collectors.joining("\n")));
+        }
+        return makeResponseEntity(CommonErrorCode.Common_ERROR);
     }
 
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ResponseEntity<ErrorResponse> handleOptimisticLockException(ObjectOptimisticLockingFailureException e) {
-        ErrorCode errorCode = ConcurrentErrorCode.ALREADY_RESERVE_SEAT;
-        return makeResponseEntity(errorCode);
+        log.warn("좌석 예약 경합 발생");
+        return makeResponseEntity(ConcurrentErrorCode.ALREADY_RESERVE_SEAT);
     }
 
-    @SlackAlarm(level = SlackAlarmLevel.WARN)
+    @SlackNotification(level = SlackNotificationLevel.WARN)
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<ErrorResponse> handleSQLException(SQLException e) throws SQLException {
         int errorCode = e.getErrorCode();
@@ -58,5 +76,4 @@ public class GlobalExceptionHandler {
                 .message(errorCode.getMessage())
                 .build();
     }
-
 }
