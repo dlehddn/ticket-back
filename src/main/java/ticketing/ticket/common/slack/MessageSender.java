@@ -19,6 +19,7 @@ public class MessageSender {
 
     @Value("${slack.webhook.uri}")
     private String SLACK_LOGGER_WEBHOOK_URI;
+
     private final ObjectMapper objectMapper;
 
     public void send(String message) {
@@ -40,7 +41,7 @@ public class MessageSender {
             values.put("text", message);
             return objectMapper.writeValueAsString(values);
         } catch (JsonProcessingException ignored) {}
-        return "{\"text\" : \"슬랙으로 보낼 데이터를 제이슨으로 변경하는데 에러가 발생함.\"}";
+        return "{\"text\" : \"can not covert to json.\"}";
     }
 
 
