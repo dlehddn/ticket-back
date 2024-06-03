@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import ticketing.ticket.common.error.BusinessException;
 import ticketing.ticket.common.jwt.TokenNotValidException;
 import ticketing.ticket.common.jwt.JwtTokenProvider;
 import ticketing.ticket.common.slack.enums.MessageFormat;
@@ -88,10 +89,15 @@ public class MessageGenerator {
         String className = stackTrace.getClassName();
         int lineNumber = stackTrace.getLineNumber();
         String methodName = stackTrace.getMethodName();
+        String message;
 
-        String message = e.getMessage();
+        if (e instanceof BusinessException) {
+            message = ((BusinessException) e).getErrorCode().getMessage();
+        } else {
+            message = e.getMessage();
+        }
 
-        if (Objects.isNull(message)) {
+        if (message == null) {
             return Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
                 .collect(joining("\n"));
