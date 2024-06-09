@@ -31,7 +31,7 @@ class MemberCouponServiceTest {
     @DisplayName("동시 쿠폰 발급 상황")
     void ThreadSafeTest() throws InterruptedException {
         //given
-        Coupon coupon1 = couponRepository.findById(9L).orElseThrow();
+        Coupon beforeCoupon = couponRepository.findById(9L).orElseThrow();
 
         ExecutorService executorService = Executors.newFixedThreadPool(30);
         CountDownLatch countDownLatch = new CountDownLatch(30);
@@ -46,8 +46,8 @@ class MemberCouponServiceTest {
         countDownLatch.await();
         executorService.shutdown();
 
-        Coupon coupon2 = couponRepository.findById(9L).orElseThrow();
+        Coupon afterCoupon = couponRepository.findById(9L).orElseThrow();
         //then
-        Assertions.assertThat(coupon2.getQuantity()).isEqualTo(coupon1.getQuantity() - 30);
+        Assertions.assertThat(afterCoupon.getQuantity()).isEqualTo(beforeCoupon.getQuantity() - 30);
     }
 }

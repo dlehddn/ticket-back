@@ -30,6 +30,6 @@ public class PerfDetailController {
 
     @PostMapping
     public ResponseEntity<List<PerfDetailResponseDto>> getAllDetails(@RequestBody final PerfSearchDto perfSearchDto) {
-        return ResponseEntity.ok(perfDetailService.findAllByPerf(perfSearchDto));
+        return ResponseEntity.ok(perfDetailService.findNextPage(perfSearchDto));
     }
 }

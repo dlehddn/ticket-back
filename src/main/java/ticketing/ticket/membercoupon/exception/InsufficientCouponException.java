@@ -4,7 +4,7 @@ import ticketing.ticket.common.error.BusinessException;
 import ticketing.ticket.common.error.errorcodes.ErrorCode;
 
 public class InsufficientCouponException extends BusinessException {
-    public InsufficientCouponException(ErrorCode errorCode) {
-        super(errorCode);
+    public InsufficientCouponException(Throwable cause, ErrorCode errorCode) {
+        super(cause, errorCode);
     }
 }

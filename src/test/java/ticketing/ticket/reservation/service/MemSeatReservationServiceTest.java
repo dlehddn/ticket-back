@@ -25,7 +25,7 @@ class MemSeatReservationServiceTest {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         CountDownLatch countDownLatch = new CountDownLatch(2);
         MemSeatReservationDto reservationDto = MemSeatReservationDto.builder()
-                .seatReservationId(103L)
+                .seatReservationId(106L)
                 .memberId(3L)
                 .totalPrice(11000)
                 .build();
@@ -36,10 +36,10 @@ class MemSeatReservationServiceTest {
                 try {
                     reserveService.reserveTicket(reservationDto);
                 } catch (ObjectOptimisticLockingFailureException e) {
-                    System.out.println(e);
                     isDuplicated.set(true);
+                } finally {
+                    countDownLatch.countDown();
                 }
-                countDownLatch.countDown();
             });
         }
         countDownLatch.await();

@@ -34,17 +34,16 @@ public class JpaCouponRepository implements CouponRepository{
                 .fetch();
     }
 
-    // 락은 하나의 트랜잭션이 종료될 때 까지 보유, 수량 체크 조회 시 락을 걸면 update 쿼리에 락 지워도 된다.
     @Override
     @Transactional
     public Optional<Coupon> findById(Long couponId) {
-        return Optional.ofNullable(em.find(Coupon.class, couponId, LockModeType.PESSIMISTIC_WRITE));
+        return Optional.ofNullable(em.find(Coupon.class, couponId));
     }
 
-    // 수량 체크에서 락 획득, 여기엔 없어도 된다.
     @Override
     public void update(Long couponId) {
-        Coupon coupon = em.find(Coupon.class, couponId);
+        Coupon coupon = em.find(Coupon.class, couponId, LockModeType.PESSIMISTIC_WRITE);
         coupon.setQuantity(coupon.getQuantity() - 1);
+        em.flush();
     }
 }

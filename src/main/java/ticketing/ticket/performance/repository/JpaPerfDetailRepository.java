@@ -42,7 +42,7 @@ public class JpaPerfDetailRepository implements PerfDetailRepository {
     }
 
     @Override
-    public List<PerformanceDetail> findAllByPerf(PerfSearchDto perfSearchDto) {
+    public List<PerformanceDetail> findAllByPaging(PerfSearchDto perfSearchDto) {
         return queryFactory
                 .select(performanceDetail)
                 .from(performanceDetail)

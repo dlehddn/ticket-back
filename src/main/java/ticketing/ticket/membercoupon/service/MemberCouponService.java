@@ -1,7 +1,9 @@
 package ticketing.ticket.membercoupon.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +32,16 @@ public class MemberCouponService {
 
     public void saveCoupon(Long memberId, Long couponId) {
         /**
-         * 쿠폰 수량 예외 더블 체크
-         * 1. 쿠폰 수량 확인 후, 0 이하라면 커스텀 예외 던짐
-         * 2. 발생하지 않을 상황이겠지만, 중요한 비지니스 로직이므로 DB 체크 제약 조건을 추가
-         *     -> JpaSystemException root cause SQLException 가능
-         *     -> 체크 제약조건을 유일하므로 ControllerAdvice 에서 직접 처리
-         *     -> SQL Error: 3819, SQLState: HY000
+         * 체크 제약 위배 시 JpaSystemException 발생 (쿠폰 수량 >= 0)
+         * 별도 설정이 없다면 서비스 단의 메서드 호출 후 트랜잭션이 커밋될 때 예외 발생
+         * -> try/catch 로 Exception 을 잡지 못함
+         * update() 메서드에서 flush()를 호출
          */
-        Coupon requestedCoupon = couponRepository.findById(couponId).orElseThrow();
-        if (requestedCoupon.getQuantity() <= 0) {
-            throw new InsufficientCouponException(SQLErrorCode.INSUFFICIENT_COUPON);
+        try {
+            couponRepository.update(couponId);
+        } catch (JpaSystemException e) {
+            throw new InsufficientCouponException(e, SQLErrorCode.INSUFFICIENT_COUPON);
         }
-        couponRepository.update(couponId);
 
         // NoSuchElementException 가능
         Member member = memberRepository.findById(memberId)

@@ -11,7 +11,6 @@ import ticketing.ticket.reservation.domain.dto.BulkReservationDto;
 import ticketing.ticket.reservation.repository.SeatReservationRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,8 +39,8 @@ public class PerfDetailService {
         return perfDetailRepository.findById(id);
     }
 
-    public List<PerfDetailResponseDto> findAllByPerf(PerfSearchDto perfSearchDto) {
-        return perfDetailRepository.findAllByPerf(perfSearchDto)
+    public List<PerfDetailResponseDto> findNextPage(PerfSearchDto perfSearchDto) {
+        return perfDetailRepository.findAllByPaging(perfSearchDto)
                 .stream()
                 .map(p -> new PerfDetailResponseDto(p))
                 .collect(Collectors.toList());
